@@ -1,0 +1,107 @@
+# ============================================
+# Git Attributes for Android Project
+# ============================================
+
+# Auto detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# ============================================
+# Source code
+# ============================================
+*.java text diff=java
+*.kt text diff=kotlin
+*.kts text diff=kotlin
+*.xml text
+*.gradle text
+*.properties text
+*.json text
+*.toml text
+
+# ============================================
+# Documentation
+# ============================================
+*.md text
+*.txt text
+*.adoc text
+*.textile text
+*.mustache text
+*.csv text
+*.tab text
+*.tsv text
+*.sql text
+
+# ============================================
+# Graphics
+# ============================================
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg text
+
+# ============================================
+# Scripts
+# ============================================
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+gradlew text eol=lf
+*.gradle text eol=lf
+
+# ============================================
+# Archives
+# ============================================
+*.7z binary
+*.gz binary
+*.jar binary
+*.rar binary
+*.tar binary
+*.zip binary
+
+# ============================================
+# Fonts
+# ============================================
+*.ttf binary
+*.otf binary
+*.eot binary
+*.woff binary
+*.woff2 binary
+
+# ============================================
+# Video
+# ============================================
+*.mov binary
+*.mp4 binary
+*.avi binary
+*.webm binary
+
+# ============================================
+# Audio
+# ============================================
+*.mp3 binary
+*.ogg binary
+*.wav binary
+
+# ============================================
+# Documents
+# ============================================
+*.pdf binary
+*.doc binary
+*.docx binary
+*.xls binary
+*.xlsx binary
+*.ppt binary
+*.pptx binary
+
+# ============================================
+# Android specific
+# ============================================
+*.apk binary
+*.aab binary
+*.dex binary
+*.so binary
+*.keystore binary
+*.jks binary

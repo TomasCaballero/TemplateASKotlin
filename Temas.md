@@ -1,0 +1,12 @@
+Hilt
+Daguer
+Room
+Ksp
+Coil
+Retrofit
+Firebase
+Generics
+ViewModels
+Fuentes
+Componentes
+Navegación
