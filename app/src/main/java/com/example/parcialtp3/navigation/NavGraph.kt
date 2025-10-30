@@ -13,6 +13,7 @@ import com.example.parcialtp3.presentation.screens.LaunchScreen
 import com.example.parcialtp3.presentation.screens.SplashScreen
 import com.example.parcialtp3.presentation.screens.OnboardingScreen1
 import com.example.parcialtp3.presentation.screens.OnboardingScreen2
+import com.example.parcialtp3.presentation.screens.LoginScreen
 
 /**
  * Navigation routes sealed class
@@ -23,6 +24,8 @@ sealed class Screen(val route: String) {
     data object Launch : Screen("launch")
     data object OnboardingScreen1 : Screen("onboarding1")
     data object OnboardingScreen2 : Screen("onboarding2")
+
+    data object Login : Screen("login")
     data object Home : Screen("home")
     data object Create : Screen("create")
     data object Detail : Screen("detail/{itemId}") {
@@ -61,7 +64,7 @@ fun NavGraph(
         composable(route = Screen.Launch.route) {
             LaunchScreen(
                 onLoginClick = {
-                    navController.navigate(Screen.Home.route)
+                    navController.navigate(Screen.Login.route)
                 },
                 onSignUpClick = {
                     navController.navigate(Screen.OnboardingScreen1.route)
