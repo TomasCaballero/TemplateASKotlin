@@ -15,6 +15,10 @@ import com.example.parcialtp3.presentation.screens.OnboardingScreen1
 import com.example.parcialtp3.presentation.screens.OnboardingScreen2
 import com.example.parcialtp3.presentation.screens.LoginScreen
 import com.example.parcialtp3.presentation.screens.FinWiseHomeScreen
+import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen1
+import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen2
+import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen3
+import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen4
 
 /**
  * Navigation routes sealed class
@@ -26,6 +30,10 @@ sealed class Screen(val route: String) {
     data object OnboardingScreen1 : Screen("onboarding1")
     data object OnboardingScreen2 : Screen("onboarding2")
     data object Login : Screen("login")
+    data object ForgotPassword1 : Screen("forgot_password1")
+    data object ForgotPassword2 : Screen("forgot_password2")
+    data object ForgotPassword3 : Screen("forgot_password3")
+    data object ForgotPassword4 : Screen("forgot_password4")
 
     data object FinWiseHome : Screen("finwise_home")
     data object Home : Screen("home")
@@ -72,7 +80,7 @@ fun NavGraph(
                     navController.navigate(Screen.OnboardingScreen1.route)
                 },
                 onForgotPasswordClick = {
-                    // TODO: Navegar a pantalla de recuperación de contraseña
+                    navController.navigate(Screen.ForgotPassword1.route)
                 }
             )
         }
@@ -111,10 +119,56 @@ fun NavGraph(
                     navController.navigate(Screen.OnboardingScreen1.route)
                 },
                 onForgotPasswordClick = {
-                    // TODO: Navegar a pantalla de recuperación de contraseña
+                    navController.navigate(Screen.ForgotPassword1.route)
                 },
                 onBackClick = {
                     navController.popBackStack()
+                }
+            )
+        }
+
+        // Forgot Password Screen 1 - Enter Email
+        composable(route = Screen.ForgotPassword1.route) {
+            ForgotPasswordScreen1(
+                onNextStepClick = { email ->
+                    navController.navigate(Screen.ForgotPassword2.route)
+                },
+                onSignUpClick = {
+                    navController.navigate(Screen.OnboardingScreen1.route)
+                }
+            )
+        }
+
+        // Forgot Password Screen 2 - Security Pin
+        composable(route = Screen.ForgotPassword2.route) {
+            ForgotPasswordScreen2(
+                onAcceptClick = { pin ->
+                    navController.navigate(Screen.ForgotPassword3.route)
+                },
+                onSendAgainClick = {
+                    // TODO: Implementar reenvío de PIN
+                },
+                onSignUpClick = {
+                    navController.navigate(Screen.OnboardingScreen1.route)
+                }
+            )
+        }
+
+        // Forgot Password Screen 3 - New Password
+        composable(route = Screen.ForgotPassword3.route) {
+            ForgotPasswordScreen3(
+                onChangePasswordClick = { newPassword, confirmPassword ->
+                    // TODO: Validar que las contraseñas coincidan
+                    navController.navigate(Screen.ForgotPassword4.route)
+                }
+            )
+        }
+
+        // Forgot Password Screen 4 - Success
+        composable(route = Screen.ForgotPassword4.route) {
+            ForgotPasswordScreen4(
+                onNavigateNext = {
+                    navController.navigate(Screen.FinWiseHome.route)
                 }
             )
         }
