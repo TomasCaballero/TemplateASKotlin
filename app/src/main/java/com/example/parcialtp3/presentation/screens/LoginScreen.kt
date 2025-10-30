@@ -63,14 +63,14 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .height(240.dp)
                     .clip(RoundedCornerShape(bottomStart = 64.dp, bottomEnd = 64.dp))
-                    .background(FinGreen),
+                    .background(FinGreenCard),
                 contentAlignment = Alignment.TopCenter
             ) {
                 Text(
                     text = "Welcome",
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = LettersAndIcons,
                     modifier = Modifier.padding(top = 64.dp)
                 )
             }
@@ -81,8 +81,8 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .offset(y = (-80).dp),
-                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp),
+                colors = CardDefaults.cardColors(containerColor = BackgroundGreenWhiteAndLetters),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
             ) {
                 Column(
@@ -97,15 +97,16 @@ fun LoginScreen(
                     ) {
                         Text(
                             text = "Username Or Email",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Color.DarkGray,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = LettersAndIcons,
+                            modifier = Modifier.padding(bottom = 8.dp, start = 20.dp)
                         )
                         TextField(
+
                             value = email,
                             onValueChange = { email = it },
-                            placeholder = { Text("example@example.com", color = Color.Gray) },
+                            placeholder = { Text("example@example.com", color = Color.Gray)},
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
                             keyboardOptions = KeyboardOptions(
@@ -116,13 +117,13 @@ fun LoginScreen(
                                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
                             ),
                             colors = TextFieldDefaults.colors(
-                                focusedContainerColor = Color(0xFFF3F4F6),
-                                unfocusedContainerColor = Color(0xFFF3F4F6),
+                                focusedContainerColor = LightGreen,
+                                unfocusedContainerColor = LightGreen,
                                 focusedIndicatorColor = FinGreen,
                                 unfocusedIndicatorColor = Color.Transparent,
                                 cursorColor = FinGreen
                             ),
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape(24.dp)
                         )
                     }
 
@@ -134,15 +135,15 @@ fun LoginScreen(
                     ) {
                         Text(
                             text = "Password",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Color.DarkGray,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = LettersAndIcons,
+                            modifier = Modifier.padding(bottom = 8.dp, start = 20.dp)
                         )
                         TextField(
                             value = password,
                             onValueChange = { password = it },
-                            placeholder = { Text("********", color = Color.Gray) },
+                            placeholder = { Text("●●●●●●●●", color = Color.Gray) },
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
                             visualTransformation = if (passwordVisible) {
@@ -172,17 +173,19 @@ fun LoginScreen(
                                 }
                             },
                             colors = TextFieldDefaults.colors(
-                                focusedContainerColor = Color(0xFFF3F4F6),
-                                unfocusedContainerColor = Color(0xFFF3F4F6),
-                                focusedIndicatorColor = FinGreen,
+                                focusedContainerColor = LightGreen,
+                                unfocusedContainerColor = LightGreen,
+                                focusedIndicatorColor = MainGreen,
                                 unfocusedIndicatorColor = Color.Transparent,
-                                cursorColor = FinGreen
+                                cursorColor = MainGreen,
+                                focusedTextColor = LettersAndIcons,
+                                unfocusedTextColor = LettersAndIcons
                             ),
                             shape = RoundedCornerShape(12.dp)
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(80.dp))
 
                     // Log In Button (Primary Action)
                     Button(
@@ -192,18 +195,21 @@ fun LoginScreen(
                             }
                         },
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(52.dp),
+                            .width(220.dp)
+                            .height(48.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = FinGreen,
-                            contentColor = Color.White
+                            containerColor = MainGreen,
+                            contentColor = Color.White,
+                            disabledContainerColor = MainGreen.copy(alpha = 1.0f),  // ← Agregá esto
+                            disabledContentColor = Color.White.copy(alpha = 1.0f)   // ← Y esto
                         ),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(24.dp),
                         enabled = email.isNotBlank() && password.isNotBlank()
                     ) {
                         Text(
                             text = "Log In",
-                            fontSize = 16.sp,
+                            fontSize = 20.sp,
+                            color = LettersAndIcons,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.5.sp
                         )
@@ -215,7 +221,8 @@ fun LoginScreen(
                     Text(
                         text = "Forgot Password?",
                         fontSize = 13.sp,
-                        color = Color.Gray,
+                        color = LettersAndIcons,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .clickable { onForgotPasswordClick() }
                             .padding(6.dp)
@@ -224,20 +231,23 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     // Sign Up Button (Secondary Action)
-                    OutlinedButton(
+                    Button(
                         onClick = onSignUpClick,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(52.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = FinGreen
+                            .width(220.dp)
+                            .height(48.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = LightGreen,
+                            contentColor = Color.White,
+                            disabledContainerColor = MainGreen.copy(alpha = 1.0f),  // ← Agregá esto
+                            disabledContentColor = Color.White.copy(alpha = 1.0f)   // ← Y esto
                         ),
-                        border = androidx.compose.foundation.BorderStroke(2.dp, FinGreen),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(24.dp)
                     ) {
                         Text(
                             text = "Sign Up",
-                            fontSize = 16.sp,
+                            fontSize = 20.sp,
+                            color = LettersAndIcons,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.5.sp
                         )
@@ -261,22 +271,24 @@ fun LoginScreen(
                         Text(
                             text = "Use ",
                             fontSize = 14.sp,
-                            color = Color.Gray
+                            fontWeight = FontWeight.SemiBold,
+                            color = LettersAndIcons
                         )
                         Text(
                             text = "Fingerprint",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = FinGreen
+                            color = BlueButton
                         )
                         Text(
                             text = " To Access",
                             fontSize = 14.sp,
-                            color = Color.Gray
-                        )
+                            color = LettersAndIcons,
+                            fontWeight = FontWeight.SemiBold,
+                            )
                     }
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     // Divider/Social Login Prompt
                     Text(
@@ -285,7 +297,7 @@ fun LoginScreen(
                         color = Color.Gray
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     // Social Icons (Facebook and Google)
                     Row(
