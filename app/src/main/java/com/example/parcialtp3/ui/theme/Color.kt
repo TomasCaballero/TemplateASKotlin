@@ -15,3 +15,6 @@ val FinGreenLight = Color(0xFFF3FDF7)      // Fondo principal
 val FinGreen = Color(0xFF00B884)            // Verde primario para botones y logo
 val FinGreenDark = Color(0xFF00A375)        // Tono más oscuro para texto
 val FinGreenPale = Color(0xFFE6F8EF)        // Fondo del botón secundario
+val FinGreenCard = Color(0xFF20C997)        // Verde para tarjetas y tab activo
+val FinIconBlue = Color(0xFF5A8DFF)         // Azul para fondos de iconos
+val FinLogoDark = Color(0xFF2F4841)         // Color oscuro para iconos de navbar
