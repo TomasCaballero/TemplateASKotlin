@@ -18,6 +18,7 @@ val FinGreenPale = Color(0xFFE6F8EF)
 val FinGreenCard = Color(0xFF20C997)
 val FinIconBlue = Color(0xFF5A8DFF)
 val FinLogoDark = Color(0xFF2F4841)
+val FinWhite = Color(0xFFFFFFFF)
 
 // Colores a usar
 val MainGreen = Color(0xFF00D09E)
@@ -30,3 +31,4 @@ val DarkModeGreenBar = Color(0xFF0E3E3E)
 val LightBlueButton = Color(0xFF6DB8FE)
 val BlueButton = Color(0xFF3289FF)
 val OceanBlueButton = Color(0xFF0068FF)
+

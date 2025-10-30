@@ -14,6 +14,7 @@ import com.example.parcialtp3.presentation.screens.SplashScreen
 import com.example.parcialtp3.presentation.screens.OnboardingScreen1
 import com.example.parcialtp3.presentation.screens.OnboardingScreen2
 import com.example.parcialtp3.presentation.screens.LoginScreen
+import com.example.parcialtp3.presentation.screens.FinWiseHomeScreen
 
 /**
  * Navigation routes sealed class
@@ -24,8 +25,9 @@ sealed class Screen(val route: String) {
     data object Launch : Screen("launch")
     data object OnboardingScreen1 : Screen("onboarding1")
     data object OnboardingScreen2 : Screen("onboarding2")
-
     data object Login : Screen("login")
+
+    data object FinWiseHome : Screen("finwise_home")
     data object Home : Screen("home")
     data object Create : Screen("create")
     data object Detail : Screen("detail/{itemId}") {
@@ -88,12 +90,45 @@ fun NavGraph(
         composable(route = Screen.OnboardingScreen2.route) {
             OnboardingScreen2(
                 onNextClick = {
-                    navController.navigate(Screen.Home.route)
+                    navController.navigate(Screen.FinWiseHome.route)
                 }
             )
         }
 
-        // Home Screen
+        // Login Screen
+        composable(route = Screen.Login.route) {
+            LoginScreen(
+                onLoginClick = { email, password ->
+                    // TODO: Implementar lógica de autenticación
+                    navController.navigate(Screen.FinWiseHome.route) {
+                        // Limpia el back stack para que no pueda volver a login
+                        popUpTo(Screen.Launch.route) {
+                            inclusive = false
+                        }
+                    }
+                },
+                onSignUpClick = {
+                    navController.navigate(Screen.OnboardingScreen1.route)
+                },
+                onForgotPasswordClick = {
+                    // TODO: Navegar a pantalla de recuperación de contraseña
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        // FinWise Home Screen
+        composable(route = Screen.FinWiseHome.route) {
+            FinWiseHomeScreen(
+                onNavigationItemSelected = { navigationItem ->
+                    // TODO: Implementar navegación entre pantallas del bottom nav
+                }
+            )
+        }
+
+        // Home Screen (Template original)
         composable(route = Screen.Home.route) {
             HomeScreen(
                 onNavigateToCreate = {

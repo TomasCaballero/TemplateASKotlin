@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.ui.theme.FinGreenCard
-import com.example.parcialtp3.ui.theme.FinGreenLight
+import com.example.parcialtp3.ui.theme.FinWhite
 import com.example.parcialtp3.ui.theme.FinLogoDark
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
@@ -34,14 +34,10 @@ fun BottomNavBar(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
-            ),
-        color = FinGreenLight,
-        shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
+        modifier = modifier.fillMaxWidth(),
+        color = FinWhite,
+        shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+        shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier
@@ -91,21 +87,26 @@ private fun NavBarItem(
 ) {
     IconButton(
         onClick = onClick,
-        modifier = modifier.size(48.dp)
+        modifier = modifier.size(56.dp)  // Ajustado para que no se corte el Surface
     ) {
         if (isSelected) {
             // Icono activo con fondo verde
             Surface(
-                shape = RoundedCornerShape(20.dp),
+                shape = RoundedCornerShape(18.dp),  // Ajusta este valor: menor = más cuadrado, mayor = más redondo
                 color = FinGreenCard,
                 modifier = Modifier.size(48.dp)
             ) {
-                Image(
-                    painter = painterResource(id = iconRes),
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(FinLogoDark),
-                    modifier = Modifier.padding(12.dp)
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = iconRes),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(FinLogoDark),
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
             }
         } else {
             // Icono inactivo sin fondo
