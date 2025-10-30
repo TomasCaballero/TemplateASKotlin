@@ -79,7 +79,7 @@ fun LoginScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight()
+                    .weight(1f)
                     .offset(y = (-80).dp),
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),

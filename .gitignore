@@ -237,3 +237,4 @@ buck-out/
 # HTML prototypes / design files
 # ============================================
 screens_html/
+CLAUDE_INSTRUCTIONS.md
