@@ -27,7 +27,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.parcialtp3.R
+import com.example.parcialtp3.presentation.viewmodels.LoginViewModel
+import com.example.parcialtp3.presentation.viewmodels.LoginUiState
 import com.example.parcialtp3.ui.theme.*
 
 /**
@@ -36,7 +39,8 @@ import com.example.parcialtp3.ui.theme.*
  */
 @Composable
 fun LoginScreen(
-    onLoginClick: (email: String, password: String) -> Unit = { _, _ -> },
+    viewModel: LoginViewModel = hiltViewModel(),
+    onLoginSuccess: () -> Unit = {},
     onSignUpClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {},
     onGoogleLoginClick: () -> Unit = {},
@@ -47,6 +51,20 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+
+    // Observar el estado del ViewModel
+    val uiState by viewModel.uiState.collectAsState()
+
+    // Manejar los diferentes estados
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            is LoginUiState.Success -> {
+                onLoginSuccess()
+                viewModel.resetState()
+            }
+            else -> { /* Otros estados se manejan en el UI */ }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -159,7 +177,7 @@ fun LoginScreen(
                                 onDone = {
                                     focusManager.clearFocus()
                                     if (email.isNotBlank() && password.isNotBlank()) {
-                                        onLoginClick(email, password)
+                                        viewModel.login(email, password)
                                     }
                                 }
                             ),
@@ -185,13 +203,27 @@ fun LoginScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(80.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Mostrar mensaje de error si existe
+                    if (uiState is LoginUiState.Error) {
+                        Text(
+                            text = (uiState as LoginUiState.Error).message,
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+
+                    Spacer(modifier = Modifier.height(40.dp))
 
                     // Log In Button (Primary Action)
                     Button(
                         onClick = {
                             if (email.isNotBlank() && password.isNotBlank()) {
-                                onLoginClick(email, password)
+                                viewModel.login(email, password)
                             }
                         },
                         modifier = Modifier
@@ -200,19 +232,27 @@ fun LoginScreen(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MainGreen,
                             contentColor = Color.White,
-                            disabledContainerColor = MainGreen.copy(alpha = 1.0f),  // ← Agregá esto
-                            disabledContentColor = Color.White.copy(alpha = 1.0f)   // ← Y esto
+                            disabledContainerColor = MainGreen.copy(alpha = 0.6f),
+                            disabledContentColor = Color.White.copy(alpha = 0.6f)
                         ),
                         shape = RoundedCornerShape(24.dp),
-                        enabled = email.isNotBlank() && password.isNotBlank()
+                        enabled = email.isNotBlank() && password.isNotBlank() && uiState !is LoginUiState.Loading
                     ) {
-                        Text(
-                            text = "Log In",
-                            fontSize = 20.sp,
-                            color = LettersAndIcons,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 0.5.sp
-                        )
+                        if (uiState is LoginUiState.Loading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                color = Color.White,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Text(
+                                text = "Log In",
+                                fontSize = 20.sp,
+                                color = LettersAndIcons,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 0.5.sp
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))

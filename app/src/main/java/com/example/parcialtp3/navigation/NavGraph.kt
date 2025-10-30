@@ -19,6 +19,7 @@ import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen1
 import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen2
 import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen3
 import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen4
+import com.example.parcialtp3.presentation.screens.ProfileScreen
 
 /**
  * Navigation routes sealed class
@@ -36,6 +37,7 @@ sealed class Screen(val route: String) {
     data object ForgotPassword4 : Screen("forgot_password4")
 
     data object FinWiseHome : Screen("finwise_home")
+    data object Profile : Screen("profile")
     data object Home : Screen("home")
     data object Create : Screen("create")
     data object Detail : Screen("detail/{itemId}") {
@@ -106,8 +108,8 @@ fun NavGraph(
         // Login Screen
         composable(route = Screen.Login.route) {
             LoginScreen(
-                onLoginClick = { email, password ->
-                    // TODO: Implementar lógica de autenticación
+                onLoginSuccess = {
+                    // Navegar a FinWiseHome cuando el login sea exitoso
                     navController.navigate(Screen.FinWiseHome.route) {
                         // Limpia el back stack para que no pueda volver a login
                         popUpTo(Screen.Launch.route) {
@@ -177,7 +179,38 @@ fun NavGraph(
         composable(route = Screen.FinWiseHome.route) {
             FinWiseHomeScreen(
                 onNavigationItemSelected = { navigationItem ->
-                    // TODO: Implementar navegación entre pantallas del bottom nav
+                    when (navigationItem) {
+                        com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
+                            navController.navigate(Screen.Profile.route)
+                        }
+                        // TODO: Implementar navegación para otros items del bottom nav
+                        else -> {
+                            // Por ahora, los otros items no navegan
+                        }
+                    }
+                }
+            )
+        }
+
+        // Profile Screen
+        composable(route = Screen.Profile.route) {
+            ProfileScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onNavigationItemSelected = { navigationItem ->
+                    when (navigationItem) {
+                        com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
+                            navController.popBackStack()
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
+                            // Ya estamos en Profile, no hacer nada
+                        }
+                        // TODO: Implementar navegación para otros items del bottom nav
+                        else -> {
+                            // Por ahora, los otros items no navegan
+                        }
+                    }
                 }
             )
         }

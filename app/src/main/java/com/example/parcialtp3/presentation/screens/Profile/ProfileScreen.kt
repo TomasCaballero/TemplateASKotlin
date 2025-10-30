@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.parcialtp3.R
+import com.example.parcialtp3.domain.model.NavigationItem
+import com.example.parcialtp3.presentation.components.BottomNavBar
 import com.example.parcialtp3.ui.theme.*
 
 @Composable
@@ -26,6 +28,7 @@ fun ProfileScreen(
     userName: String = "John Smith",
     userId: String = "25030024",
     onBackClick: () -> Unit = {},
+    onNavigationItemSelected: (NavigationItem) -> Unit = {},
     onNotificationClick: () -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onSecurityClick: () -> Unit = {},
@@ -33,11 +36,21 @@ fun ProfileScreen(
     onHelpClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {}
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(FinGreenLight)
-    ) {
+    Scaffold(
+        containerColor = FinGreenLight,
+        bottomBar = {
+            BottomNavBar(
+                selectedItem = NavigationItem.PROFILE,
+                onItemSelected = onNavigationItemSelected
+            )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .background(FinGreenLight)
+        ) {
         // 1. FONDO VERDE (Header)
         Box(
             modifier = Modifier
@@ -163,6 +176,7 @@ fun ProfileScreen(
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
+        }
         }
     }
 }

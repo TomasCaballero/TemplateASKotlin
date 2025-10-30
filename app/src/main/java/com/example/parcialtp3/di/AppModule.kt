@@ -3,9 +3,12 @@ package com.example.parcialtp3.di
 import android.content.Context
 import androidx.room.Room
 import com.example.parcialtp3.data.local.AppDatabase
+import com.example.parcialtp3.data.local.TokenManager
 import com.example.parcialtp3.data.local.dao.ExampleDao
 import com.example.parcialtp3.data.remote.api.ApiService
+import com.example.parcialtp3.data.repository.AuthRepositoryImpl
 import com.example.parcialtp3.data.repository.ExampleRepositoryImpl
+import com.example.parcialtp3.domain.repository.AuthRepository
 import com.example.parcialtp3.domain.repository.ExampleRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -59,13 +62,13 @@ object AppModule {
 
     /**
      * Provides Retrofit instance
-     * Example base URL - replace with your actual API
+     * Base URL: FinanceApp Mock API
      */
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.example.com/")
+            .baseUrl("https://d9811bf4-5e67-4a8c-bdcf-603cbbfc0275.mock.pstmn.io/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -78,6 +81,18 @@ object AppModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    // ==================== STORAGE ====================
+
+    /**
+     * Provides TokenManager for secure token storage
+     * TokenManager is automatically constructed by Hilt since it has @Inject constructor
+     */
+    @Provides
+    @Singleton
+    fun provideTokenManager(@ApplicationContext context: Context): TokenManager {
+        return TokenManager(context)
     }
 
     // ==================== DATABASE (ROOM) ====================
@@ -137,6 +152,18 @@ object AppModule {
     }
 
     // ==================== REPOSITORY ====================
+
+    /**
+     * Provides AuthRepository for authentication operations
+     */
+    @Provides
+    @Singleton
+    fun provideAuthRepository(
+        apiService: ApiService,
+        tokenManager: TokenManager
+    ): AuthRepository {
+        return AuthRepositoryImpl(apiService, tokenManager)
+    }
 
     /**
      * Provides Repository implementation
