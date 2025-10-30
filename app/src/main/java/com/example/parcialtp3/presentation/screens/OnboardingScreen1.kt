@@ -76,13 +76,17 @@ fun OnboardingScreen1(
                 Box(
                     modifier = Modifier
                         .size(250.dp)
-                        .offset(y = 0.dp),
+                        .offset(y = 20.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFe0f2f1)),
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.manos_dinero1),
                         contentDescription = "Ilustración de una mano con monedas de oro",
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .size(200.dp)
+                            .padding(16.dp),
                         contentScale = ContentScale.Fit
                     )
                 }

@@ -68,13 +68,17 @@ fun OnboardingScreen2(
                 Box(
                     modifier = Modifier
                         .size(250.dp)
-                        .offset(y = 0.dp),
+                        .offset(y = 20.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFFe0f2f1)),
                     contentAlignment = Alignment.Center
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.manos_celular2),
                         contentDescription = "Ilustración de una mano tocando un teléfono",
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .size(200.dp)
+                            .padding(16.dp),
                         contentScale = ContentScale.Fit
                     )
                 }
