@@ -11,6 +11,8 @@ import com.example.parcialtp3.presentation.screens.HomeScreen
 import com.example.parcialtp3.presentation.screens.CreateScreen
 import com.example.parcialtp3.presentation.screens.LaunchScreen
 import com.example.parcialtp3.presentation.screens.SplashScreen
+import com.example.parcialtp3.presentation.screens.OnboardingScreen1
+import com.example.parcialtp3.presentation.screens.OnboardingScreen2
 
 /**
  * Navigation routes sealed class
@@ -19,6 +21,8 @@ import com.example.parcialtp3.presentation.screens.SplashScreen
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
     data object Launch : Screen("launch")
+    data object OnboardingScreen1 : Screen("onboarding1")
+    data object OnboardingScreen2 : Screen("onboarding2")
     data object Home : Screen("home")
     data object Create : Screen("create")
     data object Detail : Screen("detail/{itemId}") {
@@ -60,11 +64,28 @@ fun NavGraph(
                     navController.navigate(Screen.Home.route)
                 },
                 onSignUpClick = {
-                    // TODO: Navegar a pantalla de registro cuando esté implementada
-                    navController.navigate(Screen.Home.route)
+                    navController.navigate(Screen.OnboardingScreen1.route)
                 },
                 onForgotPasswordClick = {
                     // TODO: Navegar a pantalla de recuperación de contraseña
+                }
+            )
+        }
+
+        // Onboarding Screen 1
+        composable(route = Screen.OnboardingScreen1.route) {
+            OnboardingScreen1(
+                onNextClick = {
+                    navController.navigate(Screen.OnboardingScreen2.route)
+                }
+            )
+        }
+
+        // Onboarding Screen 2
+        composable(route = Screen.OnboardingScreen2.route) {
+            OnboardingScreen2(
+                onNextClick = {
+                    navController.navigate(Screen.Home.route)
                 }
             )
         }
