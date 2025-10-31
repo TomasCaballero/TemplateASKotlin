@@ -21,6 +21,7 @@ import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen3
 import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen4
 import com.example.parcialtp3.presentation.screens.ProfileScreen
 import com.example.parcialtp3.presentation.screens.AccountBalanceScreen
+import com.example.parcialtp3.presentation.screens.TransactionScreen
 
 /**
  * Navigation routes sealed class
@@ -40,6 +41,7 @@ sealed class Screen(val route: String) {
     data object FinWiseHome : Screen("finwise_home")
     data object Profile : Screen("profile")
     data object AccountBalance : Screen("account_balance")
+    data object Transaction : Screen("transaction")
     data object Home : Screen("home")
     data object Create : Screen("create")
     data object Detail : Screen("detail/{itemId}") {
@@ -188,6 +190,9 @@ fun NavGraph(
                         com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
                             navController.navigate(Screen.AccountBalance.route)
                         }
+                        com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
+                            navController.navigate(Screen.Transaction.route)
+                        }
                         com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
                             // Ya estamos en Home, no hacer nada
                         }
@@ -213,6 +218,9 @@ fun NavGraph(
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
                             navController.navigate(Screen.AccountBalance.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
+                            navController.navigate(Screen.Transaction.route)
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
                             // Ya estamos en Profile, no hacer nada
@@ -244,6 +252,40 @@ fun NavGraph(
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
                             // Ya estamos en AccountBalance, no hacer nada
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
+                            navController.navigate(Screen.Transaction.route)
+                        }
+                        // TODO: Implementar navegación para otros items del bottom nav
+                        else -> {
+                            // Por ahora, los otros items no navegan
+                        }
+                    }
+                }
+            )
+        }
+
+        // Transaction Screen
+        composable(route = Screen.Transaction.route) {
+            TransactionScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onNavigationItemSelected = { navigationItem ->
+                    when (navigationItem) {
+                        com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
+                            navController.navigate(Screen.FinWiseHome.route) {
+                                popUpTo(Screen.FinWiseHome.route) { inclusive = false }
+                            }
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
+                            navController.navigate(Screen.Profile.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
+                            navController.navigate(Screen.AccountBalance.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
+                            // Ya estamos en Transaction, no hacer nada
                         }
                         // TODO: Implementar navegación para otros items del bottom nav
                         else -> {
