@@ -15,6 +15,7 @@ import com.example.parcialtp3.presentation.screens.OnboardingScreen1
 import com.example.parcialtp3.presentation.screens.OnboardingScreen2
 import com.example.parcialtp3.presentation.screens.LoginScreen
 import com.example.parcialtp3.presentation.screens.FinWiseHomeScreen
+import com.example.parcialtp3.presentation.screens.NotificationScreen
 import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen1
 import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen2
 import com.example.parcialtp3.presentation.screens.ForgotPasswordScreen3
@@ -37,6 +38,7 @@ sealed class Screen(val route: String) {
     data object ForgotPassword4 : Screen("forgot_password4")
 
     data object FinWiseHome : Screen("finwise_home")
+    data object Notification : Screen("notification")
     data object Profile : Screen("profile")
     data object Home : Screen("home")
     data object Create : Screen("create")
@@ -188,6 +190,18 @@ fun NavGraph(
                             // Por ahora, los otros items no navegan
                         }
                     }
+                },
+                onNotificationClick = {
+                    navController.navigate(Screen.Notification.route)
+                }
+            )
+        }
+
+        // Notification Screen
+        composable(route = Screen.Notification.route) {
+            NotificationScreen(
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }

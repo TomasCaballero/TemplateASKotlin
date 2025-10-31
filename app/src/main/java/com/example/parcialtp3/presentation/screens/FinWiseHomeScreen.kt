@@ -42,7 +42,8 @@ import com.example.parcialtp3.ui.theme.*
 @Composable
 fun FinWiseHomeScreen(
     viewModel: HomeViewModel = viewModel(),
-    onNavigationItemSelected: (NavigationItem) -> Unit = {}
+    onNavigationItemSelected: (NavigationItem) -> Unit = {},
+    onNotificationClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -81,7 +82,8 @@ fun FinWiseHomeScreen(
                         totalBalance = uiState.totalBalance,
                         totalExpense = uiState.totalExpense,
                         expensePercentage = uiState.expensePercentage,
-                        expenseLimit = uiState.expenseLimit
+                        expenseLimit = uiState.expenseLimit,
+                        onNotificationClick = onNotificationClick
                     )
                 }
 
@@ -151,6 +153,7 @@ private fun HomeHeader(
     totalExpense: Double,
     expensePercentage: Int,
     expenseLimit: Double,
+    onNotificationClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -181,7 +184,7 @@ private fun HomeHeader(
             // Botón de notificación
             Box {
                 IconButton(
-                    onClick = { },
+                    onClick = onNotificationClick,
                     modifier = Modifier
                         .size(48.dp)
                         .background(
@@ -214,12 +217,15 @@ private fun HomeHeader(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = "TOTAL BALANCE",
-                    fontSize = 12.sp,
-                    color = Color.White.copy(alpha = 0.8f),
-                    fontWeight = FontWeight.Medium
-                )
+                Row {
+                    Text(
+                        text = "TOTAL BALANCE",
+                        fontSize = 12.sp,
+                        color = Color.White.copy(alpha = 0.8f),
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "$${String.format("%.2f", totalBalance)}",
