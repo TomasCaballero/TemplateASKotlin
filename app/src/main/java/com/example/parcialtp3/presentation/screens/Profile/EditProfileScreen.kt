@@ -48,11 +48,11 @@ fun EditProfileScreen(
             .fillMaxSize()
             .background(FinGreenLight)
     ) {
-        // 1. FONDO VERDE (Header) - MÁS BAJO
+        // 1. FONDO VERDE (Header)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(280.dp) // ANTES 200dp (MÁS BAJO)
+                .height(280.dp)
                 .background(FinGreen)
                 .zIndex(1f)
         ) {
@@ -60,7 +60,7 @@ fun EditProfileScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 16.dp) // ANTES 16dp
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
                     .statusBarsPadding(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -75,11 +75,12 @@ fun EditProfileScreen(
                     )
                 }
 
-                // Title
+                // Title - SEMIBOLD
                 Text(
                     text = "Edit My Profile",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
+                    fontFamily = PoppinsFontFamily,
                     color = Color.Black
                 )
 
@@ -96,13 +97,13 @@ fun EditProfileScreen(
                         painter = painterResource(id = R.drawable.home_campana),
                         contentDescription = "Notifications",
                         tint = FinGreen,
-                        modifier = Modifier.size(20.dp) // ANTES 20dp
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }
         }
 
-        // 2. CARD VERDE CLARO - MÁS ARRIBA
+        // 2. CARD VERDE CLARO
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -120,17 +121,18 @@ fun EditProfileScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .padding(top = 120.dp) // ANTES 120dp (MENOS ESPACIO)
-                        .padding(horizontal = 24.dp) // ANTES 24dp
-                        .padding(bottom = 24.dp) // ANTES 24dp
+                        .padding(top = 120.dp)
+                        .padding(horizontal = 24.dp)
+                        .padding(bottom = 24.dp)
                 ) {
-                    // Account Settings Title - MÁS PEQUEÑO
+                    // Account Settings Title - SEMIBOLD
                     Text(
                         text = "Account Settings",
-                        fontSize = 18.sp, // ANTES 18sp
-                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = PoppinsFontFamily,
                         color = Color.Black,
-                        modifier = Modifier.padding(bottom = 10.dp) // ANTES 12dp
+                        modifier = Modifier.padding(bottom = 10.dp)
                     )
 
                     // Username Field
@@ -140,7 +142,7 @@ fun EditProfileScreen(
                         onValueChange = { username = it }
                     )
 
-                    Spacer(modifier = Modifier.height(5.dp)) // ANTES 12dp
+                    Spacer(modifier = Modifier.height(5.dp))
 
                     // Phone Field
                     EditProfileTextField(
@@ -150,7 +152,7 @@ fun EditProfileScreen(
                         keyboardType = KeyboardType.Phone
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp)) // ANTES 12dp
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     // Email Field
                     EditProfileTextField(
@@ -160,7 +162,7 @@ fun EditProfileScreen(
                         keyboardType = KeyboardType.Email
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp)) // ANTES 16dp
+                    Spacer(modifier = Modifier.height(12.dp))
 
                     // Push Notifications Toggle
                     EditProfileToggle(
@@ -169,7 +171,7 @@ fun EditProfileScreen(
                         onCheckedChange = { pushNotifications = it }
                     )
 
-                    Spacer(modifier = Modifier.height(6.dp)) // ANTES 8dp
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     // Dark Theme Toggle
                     EditProfileToggle(
@@ -178,16 +180,16 @@ fun EditProfileScreen(
                         onCheckedChange = { darkTheme = it }
                     )
 
-                    Spacer(modifier = Modifier.height(18.dp)) // ANTES 24dp
+                    Spacer(modifier = Modifier.height(18.dp))
 
-                    // UPDATE PROFILE BUTTON
+                    // UPDATE PROFILE BUTTON - MEDIUM
                     Button(
                         onClick = {
                             onUpdateProfile(username, phone, email, pushNotifications, darkTheme)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(46.dp), // ANTES 48dp
+                            .height(46.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = FinGreen
                         ),
@@ -195,8 +197,9 @@ fun EditProfileScreen(
                     ) {
                         Text(
                             text = "Update Profile",
-                            fontSize = 15.sp, // ANTES 16sp
-                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = PoppinsFontFamily,
                             color = Color.White
                         )
                     }
@@ -206,20 +209,20 @@ fun EditProfileScreen(
             }
         }
 
-        // 3. FOTO DE PERFIL - MÁS PEQUEÑA Y MÁS ARRIBA
+        // 3. FOTO DE PERFIL
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 90.dp) // ANTES 100dp (MÁS ARRIBA)
+                .padding(top = 90.dp)
                 .zIndex(3f),
             contentAlignment = Alignment.TopCenter
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Foto con botón de cámara - MÁS PEQUEÑA
+                // Foto con botón de cámara
                 Box(
-                    modifier = Modifier.size(110.dp) // ANTES 120dp
+                    modifier = Modifier.size(110.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.profile_avatar),
@@ -230,10 +233,10 @@ fun EditProfileScreen(
                         contentScale = ContentScale.Crop
                     )
 
-                    // Botón de cámara - MÁS PEQUEÑO
+                    // Botón de cámara
                     Box(
                         modifier = Modifier
-                            .size(30.dp) // ANTES 34dp
+                            .size(30.dp)
                             .align(Alignment.BottomEnd)
                             .clip(CircleShape)
                             .background(FinGreen)
@@ -241,30 +244,33 @@ fun EditProfileScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.camara_profile),
+                            painter = painterResource(id = R.drawable.icon_cam),
                             contentDescription = "Edit Photo",
                             tint = Color.White,
-                            modifier = Modifier.size(14.dp) // ANTES 16dp
+                            modifier = Modifier.size(14.dp)
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(8.dp)) // ANTES 10dp
+                Spacer(modifier = Modifier.height(8.dp))
 
-                // Nombre - MÁS PEQUEÑO
+                // Nombre - BOLD
                 Text(
                     text = userName,
-                    fontSize = 17.sp, // ANTES 18sp
+                    fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
+                    fontFamily = PoppinsFontFamily,
                     color = Color.Black
                 )
 
                 Spacer(modifier = Modifier.height(2.dp))
 
-                // ID - MÁS PEQUEÑO
+                // ID - SEMIBOLD
                 Text(
                     text = "ID: $userId",
-                    fontSize = 11.sp, // ANTES 12sp
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = PoppinsFontFamily,
                     color = Color.DarkGray
                 )
             }
@@ -280,20 +286,23 @@ fun EditProfileTextField(
     keyboardType: KeyboardType = KeyboardType.Text
 ) {
     Column {
+        // Label - MEDIUM
         Text(
             text = label,
-            fontSize = 13.sp, // ANTES 13sp (MÁS PEQUEÑO)
+            fontSize = 13.sp,
             fontWeight = FontWeight.Medium,
+            fontFamily = PoppinsFontFamily,
             color = Color.DarkGray,
-            modifier = Modifier.padding(bottom = 5.dp) // ANTES 6dp
+            modifier = Modifier.padding(bottom = 5.dp)
         )
 
+        // TextField con texto LIGHT
         TextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(47.dp), // ANTES 50dp (MÁS BAJO)
+                .height(47.dp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFFE6F0FF),
                 unfocusedContainerColor = Color(0xFFE6F0FF),
@@ -304,10 +313,14 @@ fun EditProfileTextField(
                 focusedTextColor = Color.DarkGray,
                 unfocusedTextColor = Color.DarkGray
             ),
-            shape = RoundedCornerShape(5.dp), // ANTES 12dp
+            shape = RoundedCornerShape(5.dp),
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-            textStyle = LocalTextStyle.current.copy(fontSize = 10.sp) // ANTES 14sp
+            textStyle = LocalTextStyle.current.copy(
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Light,
+                fontFamily = PoppinsFontFamily
+            )
         )
     }
 }
@@ -321,14 +334,16 @@ fun EditProfileToggle(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp), // ANTES 6dp (MÁS COMPACTO)
+            .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Label - MEDIUM
         Text(
             text = label,
-            fontSize = 14.sp, // ANTES 15sp (MÁS PEQUEÑO)
+            fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
+            fontFamily = PoppinsFontFamily,
             color = Color.Black
         )
 

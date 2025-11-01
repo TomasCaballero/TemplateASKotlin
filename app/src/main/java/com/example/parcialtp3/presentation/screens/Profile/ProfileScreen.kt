@@ -51,132 +51,135 @@ fun ProfileScreen(
                 .padding(paddingValues)
                 .background(FinGreenLight)
         ) {
-        // 1. FONDO VERDE (Header)
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .background(FinGreen)
-                .zIndex(1f)
-        ) {
-            // Top Navigation Bar
-            Row(
+            // 1. FONDO VERDE (Header)
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 16.dp)
-                    .statusBarsPadding(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .height(200.dp)
+                    .background(FinGreen)
+                    .zIndex(1f)
             ) {
-                // Back button
-                IconButton(onClick = onBackClick) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.navbar_home),
-                        contentDescription = "Back",
-                        tint = Color.White,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+                // Top Navigation Bar
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
+                        .statusBarsPadding(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Back button
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.navbar_home),
+                            contentDescription = "Back",
+                            tint = Color.White,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
 
-                // Title
-                Text(
-                    text = "Profile",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
+                    // Title
+                    Text(
+                        text = "Profile",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = PoppinsFontFamily,
+                        color = Color.Black
+                    )
+
+                    // Notification button con círculo blanco
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                            .clickable(onClick = onNotificationClick),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.home_campana),
+                            contentDescription = "Notifications",
+                            tint = FinGreen,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+            }
+
+            // 2. CARD VERDE CLARO SUPERPUESTO
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(top = 180.dp)
+                    .zIndex(2f)
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
+                    color = FinGreenLight,
+                    shadowElevation = 0.dp
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 110.dp)
+                            .padding(horizontal = 24.dp)
+                            .padding(bottom = 24.dp)
+                    ) {
+                        // Nombre
+                        Text(
+                            text = userName,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = PoppinsFontFamily,
+                            color = Color.Black,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        // ID
+                        Text(
+                            text = "ID: $userId",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = PoppinsFontFamily,
+                            color = Color.DarkGray,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Lista de opciones del menú
+                        ProfileMenuList(
+                            onEditProfileClick = onEditProfileClick,
+                            onSecurityClick = onSecurityClick,
+                            onSettingClick = onSettingClick,
+                            onHelpClick = onHelpClick,
+                            onLogoutClick = onLogoutClick
+                        )
+                    }
+                }
+            }
+
+            // 3. FOTO DE PERFIL
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 110.dp)
+                    .zIndex(3f),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.profile_avatar),
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier
+                        .size(130.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
                 )
-
-                // Notification button con círculo blanco
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(Color.White) // ✅ CÍRCULO BLANCO
-                        .clickable(onClick = onNotificationClick),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.home_campana),
-                        contentDescription = "Notifications",
-                        tint = FinGreen, // Verde para que contraste con el blanco
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
             }
-        }
-
-        // 2. CARD VERDE CLARO SUPERPUESTO
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .padding(top = 180.dp)
-                .zIndex(2f)
-        ) {
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize(),
-                shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                color = FinGreenLight,
-                shadowElevation = 0.dp
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 110.dp)
-                        .padding(horizontal = 24.dp)
-                        .padding(bottom = 24.dp)
-                ) {
-                    // Nombre
-                    Text(
-                        text = userName,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    // ID
-                    Text(
-                        text = "ID: $userId",
-                        fontSize = 13.sp,
-                        color = Color.DarkGray,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    // Lista de opciones del menú
-                    ProfileMenuList(
-                        onEditProfileClick = onEditProfileClick,
-                        onSecurityClick = onSecurityClick,
-                        onSettingClick = onSettingClick,
-                        onHelpClick = onHelpClick,
-                        onLogoutClick = onLogoutClick
-                    )
-                }
-            }
-        }
-
-        // 3. FOTO DE PERFIL
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 110.dp)
-                .zIndex(3f),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile_avatar),
-                contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .size(130.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-        }
         }
     }
 }
@@ -255,7 +258,8 @@ fun ProfileMenuItem(
         Text(
             text = title,
             fontSize = 16.sp,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.Medium,
+            fontFamily = PoppinsFontFamily,
             color = Color.Black
         )
     }
