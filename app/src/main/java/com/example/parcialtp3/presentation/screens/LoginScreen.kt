@@ -32,6 +32,8 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.presentation.viewmodels.LoginViewModel
 import com.example.parcialtp3.presentation.viewmodels.LoginUiState
 import com.example.parcialtp3.ui.theme.*
+import androidx.compose.ui.draw.rotate
+
 
 /**
  * Pantalla de inicio de sesión de FinWise
@@ -146,8 +148,7 @@ fun LoginScreen(
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
-
-                    // Password Field
+// Password Field
                     Column(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -183,10 +184,13 @@ fun LoginScreen(
                             ),
                             trailingIcon = {
                                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Text(
-                                        text = "👁",
-                                        fontSize = 20.sp,
-                                        color = Color.Gray
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.eye_pass),
+                                        contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                                        tint = Color.Gray,
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .rotate(if (passwordVisible) 180f else 0f)
                                     )
                                 }
                             },

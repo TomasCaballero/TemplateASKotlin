@@ -327,7 +327,7 @@ fun NavGraph(
             )
         }
 
-        // ✅ CATEGORIES SCREEN
+        // ✅ CATEGORIES SCREEN - AQUÍ ESTÁ EL CAMBIO PRINCIPAL
         composable(route = Screen.Categories.route) {
             CategoriesScreen(
                 onBackClick = {
@@ -335,6 +335,29 @@ fun NavGraph(
                 },
                 onNotificationClick = {
                     navController.navigate(Screen.Notification.route)
+                },
+                onNavigationItemSelected = { navigationItem ->
+                    when (navigationItem) {
+                        com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
+                            navController.navigate(Screen.FinWiseHome.route) {
+                                popUpTo(Screen.FinWiseHome.route) { inclusive = false }
+                            }
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
+                            navController.navigate(Screen.Profile.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
+                            navController.navigate(Screen.AccountBalance.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
+                            navController.navigate(Screen.Transaction.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.WALLET -> {
+                            // Ya estamos en Categories, no hacer nada
+                        }
+                        else -> {
+                        }
+                    }
                 },
                 onCategoryClick = { category ->
                     // TODO: Navegar a detalles de categoría si es necesario
