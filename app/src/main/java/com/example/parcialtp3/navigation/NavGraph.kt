@@ -14,6 +14,7 @@ sealed class Screen(val route: String) {
     data object OnboardingScreen1 : Screen("onboarding1")
     data object OnboardingScreen2 : Screen("onboarding2")
     data object Login : Screen("login")
+    data object Signup : Screen("signup")
     data object ForgotPassword1 : Screen("forgot_password1")
     data object ForgotPassword2 : Screen("forgot_password2")
     data object ForgotPassword3 : Screen("forgot_password3")
@@ -48,10 +49,12 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
+        // Splash Screen - se muestra 2 segundos antes de ir a Launch
         composable(route = Screen.Splash.route) {
             SplashScreen(
                 onNavigateToLaunch = {
                     navController.navigate(Screen.Launch.route) {
+                        // Elimina Splash del back stack para que no se pueda volver
                         popUpTo(Screen.Splash.route) {
                             inclusive = true
                         }
@@ -66,7 +69,7 @@ fun NavGraph(
                     navController.navigate(Screen.Login.route)
                 },
                 onSignUpClick = {
-                    navController.navigate(Screen.OnboardingScreen1.route)
+                    navController.navigate(Screen.Signup.route)
                 },
                 onForgotPasswordClick = {
                     navController.navigate(Screen.ForgotPassword1.route)
@@ -93,17 +96,37 @@ fun NavGraph(
         composable(route = Screen.Login.route) {
             LoginScreen(
                 onLoginSuccess = {
+                    // Navegar a FinWiseHome cuando el login sea exitoso
                     navController.navigate(Screen.FinWiseHome.route) {
+                        // Limpia el back stack para que no pueda volver a login
                         popUpTo(Screen.Launch.route) {
                             inclusive = false
                         }
                     }
                 },
                 onSignUpClick = {
-                    navController.navigate(Screen.OnboardingScreen1.route)
+                    navController.navigate(Screen.Signup.route)
                 },
                 onForgotPasswordClick = {
                     navController.navigate(Screen.ForgotPassword1.route)
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(route = Screen.Signup.route) {
+            SignupScreen(
+                onSignUpSuccess = {
+                    navController.navigate(Screen.FinWiseHome.route) {
+                        popUpTo(Screen.Launch.route) {
+                            inclusive = false
+                        }
+                    }
+                },
+                onLoginClick = {
+                    navController.navigate(Screen.Login.route)
                 },
                 onBackClick = {
                     navController.popBackStack()
@@ -128,6 +151,7 @@ fun NavGraph(
                     navController.navigate(Screen.ForgotPassword3.route)
                 },
                 onSendAgainClick = {
+                    // TODO: Implementar reenvío de PIN
                 },
                 onSignUpClick = {
                     navController.navigate(Screen.OnboardingScreen1.route)
@@ -138,6 +162,7 @@ fun NavGraph(
         composable(route = Screen.ForgotPassword3.route) {
             ForgotPasswordScreen3(
                 onChangePasswordClick = { newPassword, confirmPassword ->
+                    // TODO: Validar que las contraseñas coincidan
                     navController.navigate(Screen.ForgotPassword4.route)
                 }
             )
@@ -168,8 +193,11 @@ fun NavGraph(
                             navController.navigate(Screen.Categories.route)
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
+                            // Ya estamos en Home, no hacer nada
                         }
+                        // TODO: Implementar navegación para otros items del bottom nav
                         else -> {
+                            // Por ahora, los otros items no navegan
                         }
                     }
                 },
@@ -195,9 +223,7 @@ fun NavGraph(
                 onNavigationItemSelected = { navigationItem ->
                     when (navigationItem) {
                         com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
-                            navController.navigate(Screen.FinWiseHome.route) {
-                                popUpTo(Screen.FinWiseHome.route) { inclusive = false }
-                            }
+                            navController.popBackStack()
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
                             navController.navigate(Screen.AccountBalance.route)
@@ -209,8 +235,11 @@ fun NavGraph(
                             navController.navigate(Screen.Categories.route)
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
+                            // Ya estamos en Profile, no hacer nada
                         }
+                        // TODO: Implementar navegación para otros items del bottom nav
                         else -> {
+                            // Por ahora, los otros items no navegan
                         }
                     }
                 },
@@ -283,6 +312,7 @@ fun NavGraph(
                             navController.navigate(Screen.Profile.route)
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
+                            // Ya estamos en AccountBalance, no hacer nada
                         }
                         com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
                             navController.navigate(Screen.Transaction.route)
@@ -291,12 +321,14 @@ fun NavGraph(
                             navController.navigate(Screen.Categories.route)
                         }
                         else -> {
+                            // Por ahora, los otros items no navegan
                         }
                     }
                 }
             )
         }
 
+        // Transaction Screen
         composable(route = Screen.Transaction.route) {
             TransactionScreen(
                 onBackClick = {
@@ -327,7 +359,7 @@ fun NavGraph(
             )
         }
 
-        // ✅ CATEGORIES SCREEN - AQUÍ ESTÁ EL CAMBIO PRINCIPAL
+        //  CATEGORIES SCREEN - AQUÍ ESTÁ EL CAMBIO PRINCIPAL
         composable(route = Screen.Categories.route) {
             CategoriesScreen(
                 onBackClick = {
@@ -356,6 +388,7 @@ fun NavGraph(
                             // Ya estamos en Categories, no hacer nada
                         }
                         else -> {
+                            // Por ahora, los otros items no navegan
                         }
                     }
                 },
@@ -392,6 +425,7 @@ fun NavGraph(
             )
         }
 
+        // Home Screen (Template original)
         composable(route = Screen.Home.route) {
             HomeScreen(
                 onNavigateToCreate = {
@@ -403,6 +437,7 @@ fun NavGraph(
             )
         }
 
+        // Create Screen
         composable(route = Screen.Create.route) {
             CreateScreen(
                 onNavigateBack = {
@@ -411,6 +446,7 @@ fun NavGraph(
             )
         }
 
+        // Detail Screen with argument
         composable(
             route = Screen.Detail.route,
             arguments = listOf(

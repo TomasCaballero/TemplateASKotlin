@@ -5,8 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -16,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +37,9 @@ import com.example.parcialtp3.presentation.viewmodels.LoginViewModel
 import com.example.parcialtp3.presentation.viewmodels.LoginUiState
 import com.example.parcialtp3.ui.theme.*
 import androidx.compose.ui.draw.rotate
-
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
 
 /**
  * Pantalla de inicio de sesión de FinWise
@@ -54,10 +60,8 @@ fun LoginScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
-    // Observar el estado del ViewModel
     val uiState by viewModel.uiState.collectAsState()
 
-    // Manejar los diferentes estados
     LaunchedEffect(uiState) {
         when (uiState) {
             is LoginUiState.Success -> {
@@ -71,46 +75,39 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(FinGreenLight)
+            .background(MainGreen)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Header Section (Curved mint green banner)
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(240.dp)
-                    .clip(RoundedCornerShape(bottomStart = 64.dp, bottomEnd = 64.dp))
-                    .background(FinGreenCard),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                Text(
-                    text = "Welcome",
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = LettersAndIcons,
-                    modifier = Modifier.padding(top = 64.dp)
-                )
+            // Header Section (on green background)
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 80.dp, bottom = 60.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Welcome",
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = LettersAndIcons
+                    )
+                }
             }
 
-            // Main Form Card (White rounded container overlapping header)
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .offset(y = (-80).dp),
-                shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp),
-                colors = CardDefaults.cardColors(containerColor = BackgroundGreenWhiteAndLetters),
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-            ) {
+            // White section with rounded top corners
+            item {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 28.dp, vertical = 24.dp),
+                        .fillParentMaxHeight()
+                        .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
+                        .background(BackgroundGreenWhiteAndLetters)
+                        .padding(start = 24.dp, top = 100.dp, bottom = 16.dp, end = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                ){
                     // Username/Email Field
                     Column(
                         modifier = Modifier.fillMaxWidth()
@@ -120,35 +117,51 @@ fun LoginScreen(
                             fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = LettersAndIcons,
-                            modifier = Modifier.padding(bottom = 8.dp, start = 20.dp)
+                            modifier = Modifier.padding(bottom = 2.dp, start = 16.dp)
                         )
-                        TextField(
-
-                            value = email,
-                            onValueChange = { email = it },
-                            placeholder = { Text("example@example.com", color = Color.Gray)},
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Email,
-                                imeAction = ImeAction.Next
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                            ),
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = LightGreen,
-                                unfocusedContainerColor = LightGreen,
-                                focusedIndicatorColor = FinGreen,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                cursorColor = FinGreen
-                            ),
-                            shape = RoundedCornerShape(24.dp)
-                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(42.dp)
+                                .background(LightGreen, RoundedCornerShape(24.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            BasicTextField(
+                                value = email,
+                                onValueChange = { email = it },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
+                                singleLine = true,
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 16.sp,
+                                    color = DarkModeGreenBar
+                                ),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Email,
+                                    imeAction = ImeAction.Next
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                                ),
+                                cursorBrush = SolidColor(FinGreen),
+                                decorationBox = { innerTextField ->
+                                    if (email.isEmpty()) {
+                                        Text(
+                                            "example@example.com",
+                                            color = DarkModeGreenBar.copy(alpha = 0.6f),
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                    innerTextField()
+                                }
+                            )
+                        }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-// Password Field
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Password Field
                     Column(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -157,54 +170,70 @@ fun LoginScreen(
                             fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = LettersAndIcons,
-                            modifier = Modifier.padding(bottom = 8.dp, start = 20.dp)
+                            modifier = Modifier.padding(bottom = 2.dp, start = 16.dp)
                         )
-                        TextField(
-                            value = password,
-                            onValueChange = { password = it },
-                            placeholder = { Text("●●●●●●●●", color = Color.Gray) },
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true,
-                            visualTransformation = if (passwordVisible) {
-                                VisualTransformation.None
-                            } else {
-                                PasswordVisualTransformation()
-                            },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Password,
-                                imeAction = ImeAction.Done
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onDone = {
-                                    focusManager.clearFocus()
-                                    if (email.isNotBlank() && password.isNotBlank()) {
-                                        viewModel.login(email, password)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(42.dp)
+                                .background(LightGreen, RoundedCornerShape(24.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            BasicTextField(
+                                value = password,
+                                onValueChange = { password = it },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .padding(end = 32.dp),
+                                singleLine = true,
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 20.sp,
+                                    color = DarkModeGreenBar
+                                ),
+                                visualTransformation = if (passwordVisible) {
+                                    VisualTransformation.None
+                                } else {
+                                    SpacedPasswordTransformation()
+                                },
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Password,
+                                    imeAction = ImeAction.Done
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onDone = {
+                                        focusManager.clearFocus()
+                                        if (email.isNotBlank() && password.isNotBlank()) {
+                                            viewModel.login(email, password)
+                                        }
                                     }
+                                ),
+                                cursorBrush = SolidColor(FinGreen),
+                                decorationBox = { innerTextField ->
+                                    if (password.isEmpty()) {
+                                        Text(
+                                            "● ● ● ● ● ● ● ●",
+                                            color = DarkModeGreenBar.copy(alpha = 0.6f),
+                                            fontSize = 20.sp
+                                        )
+                                    }
+                                    innerTextField()
                                 }
-                            ),
-                            trailingIcon = {
-                                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.eye_pass),
-                                        contentDescription = if (passwordVisible) "Hide password" else "Show password",
-                                        tint = Color.Gray,
-                                        modifier = Modifier
-                                            .size(24.dp)
-                                            .rotate(if (passwordVisible) 180f else 0f)
-                                    )
-                                }
-                            },
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = LightGreen,
-                                unfocusedContainerColor = LightGreen,
-                                focusedIndicatorColor = MainGreen,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                cursorColor = MainGreen,
-                                focusedTextColor = LettersAndIcons,
-                                unfocusedTextColor = LettersAndIcons
-                            ),
-                            shape = RoundedCornerShape(12.dp)
-                        )
+                            )
+                            IconButton(
+                                onClick = { passwordVisible = !passwordVisible },
+                                modifier = Modifier.align(Alignment.CenterEnd)
+                            ) {
+                                Image(
+                                    painter = painterResource(
+                                        id = if (passwordVisible) R.drawable.eye_pass_open else R.drawable.eye_pass
+                                    ),
+                                    contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                                    modifier = Modifier.size(20.dp),
+                                    colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(DarkModeGreenBar)
+                                )
+                            }
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -343,50 +372,32 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Social Icons (Facebook and Google)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Facebook Icon
-                        Box(
+                        Image(
+                            painter = painterResource(id = R.drawable.login_facebook),
+                            contentDescription = "Facebook",
                             modifier = Modifier
-                                .size(48.dp)
-                                .clip(CircleShape)
-                                .border(1.dp, Color.LightGray, CircleShape)
-                                .clickable { onFacebookLoginClick() },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.login_facebook),
-                                contentDescription = "Facebook",
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
+                                .size(40.dp)
+                                .clickable { onFacebookLoginClick() }
+                        )
 
                         Spacer(modifier = Modifier.width(32.dp))
 
-                        // Google Icon
-                        Box(
+                        Image(
+                            painter = painterResource(id = R.drawable.login_google),
+                            contentDescription = "Google",
                             modifier = Modifier
-                                .size(48.dp)
-                                .clip(CircleShape)
-                                .border(1.dp, Color.LightGray, CircleShape)
-                                .clickable { onGoogleLoginClick() },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.login_google),
-                                contentDescription = "Google",
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
+                                .size(40.dp)
+                                .clickable { onGoogleLoginClick() }
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Footer Signup Link
                     Row(
                         horizontalArrangement = Arrangement.Center
                     ) {
