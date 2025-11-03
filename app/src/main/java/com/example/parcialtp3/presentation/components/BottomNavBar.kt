@@ -1,26 +1,22 @@
 package com.example.parcialtp3.presentation.components
 
-import android.view.RoundedCorner
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
-import com.example.parcialtp3.ui.theme.FinGreenCard
-import com.example.parcialtp3.ui.theme.FinWhite
-import com.example.parcialtp3.ui.theme.FinLogoDark
+import com.example.parcialtp3.ui.theme.BackgroundGreenWhiteAndLetters
+import com.example.parcialtp3.ui.theme.LettersAndIcons
+import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
 /**
@@ -35,7 +31,7 @@ fun BottomNavBar(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = FinWhite,
+        color = BackgroundGreenWhiteAndLetters,
         shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
         shadowElevation = 8.dp
     ) {
@@ -93,7 +89,7 @@ private fun NavBarItem(
             // Icono activo con fondo verde
             Surface(
                 shape = RoundedCornerShape(18.dp),  // Ajusta este valor: menor = más cuadrado, mayor = más redondo
-                color = FinGreenCard,
+                color = MainGreen,
                 modifier = Modifier.size(48.dp)
             ) {
                 Box(
@@ -103,7 +99,7 @@ private fun NavBarItem(
                     Image(
                         painter = painterResource(id = iconRes),
                         contentDescription = null,
-                        colorFilter = ColorFilter.tint(FinLogoDark),
+                        colorFilter = ColorFilter.tint(LettersAndIcons),
                         modifier = Modifier.size(24.dp)
                     )
                 }
@@ -113,7 +109,7 @@ private fun NavBarItem(
             Image(
                 painter = painterResource(id = iconRes),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(FinLogoDark),
+                colorFilter = ColorFilter.tint(LettersAndIcons),
                 modifier = Modifier.size(28.dp)
             )
         }

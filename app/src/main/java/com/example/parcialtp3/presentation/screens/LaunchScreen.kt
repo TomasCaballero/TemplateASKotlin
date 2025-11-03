@@ -29,7 +29,7 @@ fun LaunchScreen(
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = FinGreenLight
+        color = LightGreen
     ) {
         Column(
             modifier = Modifier
@@ -49,7 +49,7 @@ fun LaunchScreen(
                     painter = painterResource(id = R.drawable.launch_logoclaro),
                     contentDescription = "FinWise Logo",
                     modifier = Modifier.size(80.dp),
-                    colorFilter = ColorFilter.tint(FinGreen)
+                    colorFilter = ColorFilter.tint(MainGreen)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -59,7 +59,7 @@ fun LaunchScreen(
                     text = "FinWise",
                     fontSize = 48.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = FinGreen,
+                    color = MainGreen,
                     letterSpacing = (-0.5).sp
                 )
 
@@ -90,7 +90,7 @@ fun LaunchScreen(
                         .fillMaxWidth()
                         .height(56.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = FinGreen,
+                        containerColor = MainGreen,
                         contentColor = Color.White
                     ),
                     shape = MaterialTheme.shapes.extraLarge
@@ -109,8 +109,8 @@ fun LaunchScreen(
                         .fillMaxWidth()
                         .height(56.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = FinGreenPale,
-                        contentColor = FinGreenDark
+                        containerColor = BackgroundGreenWhiteAndLetters,
+                        contentColor = DarkModeGreenBar
                     ),
                     shape = MaterialTheme.shapes.extraLarge
                 ) {

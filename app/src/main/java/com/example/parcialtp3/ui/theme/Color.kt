@@ -6,21 +6,6 @@ val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
-
-// No usar!!!
-val FinGreenLight = Color(0xFFF3FDF7)
-val FinGreen = Color(0xFF00B884)
-val FinGreenDark = Color(0xFF00A375)
-val FinGreenPale = Color(0xFFE6F8EF)
-val FinGreenCard = Color(0xFF20C997)
-val FinIconBlue = Color(0xFF5A8DFF)
-val FinLogoDark = Color(0xFF2F4841)
-val FinWhite = Color(0xFFFFFFFF)
-
-// Colores a usar
 val MainGreen = Color(0xFF00D09E)
 val LightGreen = Color(0xFFDFF7E2)
 val BackgroundGreenWhiteAndLetters = Color(0xFFF1FFF3)

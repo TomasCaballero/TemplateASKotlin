@@ -46,7 +46,7 @@ fun TransactionScreen(
 ) {
     val usagePercentage = ((kotlin.math.abs(totalExpense) / maxBudget) * 100).toInt()
     Scaffold(
-        containerColor = FinWhite,
+        containerColor = BackgroundGreenWhiteAndLetters,
         bottomBar = {
             BottomNavBar(
                 selectedItem = NavigationItem.TRANSFER,
@@ -58,7 +58,7 @@ fun TransactionScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(FinGreen)
+                .background(MainGreen)
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
@@ -79,7 +79,7 @@ fun TransactionScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                            .background(FinGreenLight)
+                            .background(LightGreen)
                             .padding(horizontal = 24.dp)
                     ) {
                         Spacer(modifier = Modifier.height(24.dp))
@@ -92,7 +92,7 @@ fun TransactionScreen(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(FinGreenLight)
+                                .background(LightGreen)
                                 .padding(horizontal = 24.dp)
                                 .padding(bottom = 16.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -111,7 +111,7 @@ fun TransactionScreen(
                         TransactionItemScreen(
                             transaction = transaction,
                             modifier = Modifier
-                                .background(FinGreenLight)
+                                .background(LightGreen)
                                 .padding(horizontal = 24.dp)
                         )
                     }
@@ -122,7 +122,7 @@ fun TransactionScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(24.dp)
-                            .background(FinGreenLight)
+                            .background(LightGreen)
                     )
                 }
             }
@@ -182,7 +182,7 @@ private fun TransactionHeader(
                 .fillMaxWidth(0.8f)
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = FinWhite),
+            colors = CardDefaults.cardColors(containerColor = BackgroundGreenWhiteAndLetters),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             Column(
@@ -200,7 +200,7 @@ private fun TransactionHeader(
                     text = "$${String.format(Locale.US, "%.2f", totalBalance)}",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
-                    color = FinLogoDark,
+                    color = LettersAndIcons,
                     modifier = Modifier.padding(top = 4.dp)
                 )
             }
@@ -354,7 +354,7 @@ fun TransactionItemScreen(transaction: Transaction, modifier: Modifier = Modifie
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(FinIconBlue),
+                .background(BlueButton),
             contentAlignment = Alignment.Center
         ) {
             Icon(

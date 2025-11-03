@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.parcialtp3.R
-import com.example.parcialtp3.ui.theme.FinGreenCard
+import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
 /**
@@ -33,7 +33,7 @@ fun GoalsCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = FinGreenCard
+            containerColor = MainGreen
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp

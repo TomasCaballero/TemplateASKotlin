@@ -19,7 +19,7 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.Transaction
 import com.example.parcialtp3.domain.model.TransactionIconType
 import com.example.parcialtp3.domain.model.TransactionType
-import com.example.parcialtp3.ui.theme.FinIconBlue
+import com.example.parcialtp3.ui.theme.BlueButton
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
 /**
@@ -58,7 +58,7 @@ fun TransactionItem(
                 // Icono
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = FinIconBlue,
+                    color = BlueButton,
                     modifier = Modifier.size(48.dp)
                 ) {
                     Image(

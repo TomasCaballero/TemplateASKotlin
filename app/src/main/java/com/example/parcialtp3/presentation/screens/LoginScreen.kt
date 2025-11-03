@@ -144,7 +144,7 @@ fun LoginScreen(
                                 keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (email.isEmpty()) {
                                         Text(
@@ -208,7 +208,7 @@ fun LoginScreen(
                                         }
                                     }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (password.isEmpty()) {
                                         Text(
@@ -410,7 +410,7 @@ fun LoginScreen(
                             text = "Sign Up",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
-                            color = FinGreen,
+                            color = MainGreen ,
                             modifier = Modifier.clickable { onSignUpClick() }
                         )
                     }

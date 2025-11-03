@@ -1,5 +1,6 @@
 package com.example.parcialtp3.presentation.screens
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,13 +65,13 @@ fun CategoriesScreen(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = FinGreen.toArgb()
+            window.statusBarColor = MainGreen.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }
 
     Scaffold(
-        containerColor = FinWhite,
+        containerColor = BackgroundGreenWhiteAndLetters,
         bottomBar = {
             BottomNavBar(
                 selectedItem = NavigationItem.WALLET,
@@ -82,7 +83,7 @@ fun CategoriesScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(FinGreen)
+                .background(MainGreen)
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
@@ -105,7 +106,7 @@ fun CategoriesScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                            .background(FinGreenLight)
+                            .background(LightGreen)
                             .padding(horizontal = 24.dp)
                     ) {
                         Spacer(modifier = Modifier.height(32.dp))
@@ -214,6 +215,7 @@ fun CategoriesScreen(
     }
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 private fun CategoriesHeader(
     totalBalance: Double,
@@ -261,7 +263,7 @@ private fun CategoriesHeader(
                 Icon(
                     painter = painterResource(id = R.drawable.home_campana),
                     contentDescription = "Notifications",
-                    tint = FinGreen,
+                    tint = MainGreen,
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -438,7 +440,7 @@ fun CategoryItem(
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             fontFamily = PoppinsFontFamily,
-            color = FinLogoDark,
+            color = LettersAndIcons,
             textAlign = TextAlign.Center
         )
     }

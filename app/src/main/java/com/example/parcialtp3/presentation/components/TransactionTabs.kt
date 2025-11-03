@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.parcialtp3.presentation.viewmodels.TimeTab
-import com.example.parcialtp3.ui.theme.FinGreenCard
+import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
 /**
@@ -74,7 +74,7 @@ private fun TabButton(
             .height(40.dp),
         shape = RoundedCornerShape(50.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) FinGreenCard else Color.Transparent,
+            containerColor = if (isSelected) MainGreen else Color.Transparent,
             contentColor = if (isSelected) Color.White else Color.Gray
         ),
         elevation = ButtonDefaults.buttonElevation(

@@ -46,14 +46,14 @@ fun EditProfileScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(FinGreenLight)
+            .background(LightGreen)
     ) {
         // 1. FONDO VERDE (Header)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(280.dp)
-                .background(FinGreen)
+                .background(MainGreen)
                 .zIndex(1f)
         ) {
             // Top Navigation Bar
@@ -96,7 +96,7 @@ fun EditProfileScreen(
                     Icon(
                         painter = painterResource(id = R.drawable.home_campana),
                         contentDescription = "Notifications",
-                        tint = FinGreen,
+                        tint = MainGreen,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -114,7 +114,7 @@ fun EditProfileScreen(
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                color = FinGreenLight,
+                color = LightGreen,
                 shadowElevation = 0.dp
             ) {
                 Column(
@@ -191,7 +191,7 @@ fun EditProfileScreen(
                             .fillMaxWidth()
                             .height(46.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = FinGreen
+                            containerColor = MainGreen
                         ),
                         shape = RoundedCornerShape(26.dp)
                     ) {
@@ -239,7 +239,7 @@ fun EditProfileScreen(
                             .size(30.dp)
                             .align(Alignment.BottomEnd)
                             .clip(CircleShape)
-                            .background(FinGreen)
+                            .background(MainGreen)
                             .clickable(onClick = onCameraClick),
                         contentAlignment = Alignment.Center
                     ) {
@@ -352,7 +352,7 @@ fun EditProfileToggle(
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
                 checkedThumbColor = Color.White,
-                checkedTrackColor = FinGreen,
+                checkedTrackColor = MainGreen,
                 uncheckedThumbColor = Color.White,
                 uncheckedTrackColor = Color.LightGray
             )

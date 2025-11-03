@@ -18,11 +18,11 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = FinGreen,
-    secondary = FinGreenCard,
-    tertiary = FinGreenPale,
-    background = FinGreenLight,
-    surface = FinGreenLight
+    primary = MainGreen,
+    secondary = MainGreen,
+    tertiary = BackgroundGreenWhiteAndLetters,
+    background = LightGreen,
+    surface = LightGreen
 )
 
 @Composable

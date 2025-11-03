@@ -52,13 +52,13 @@ fun AccountBalanceScreen(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = FinGreen.toArgb()
+            window.statusBarColor = MainGreen.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }
 
     Scaffold(
-        containerColor = FinWhite,
+        containerColor = BackgroundGreenWhiteAndLetters,
         bottomBar = {
             BottomNavBar(
                 selectedItem = NavigationItem.STATS,
@@ -70,7 +70,7 @@ fun AccountBalanceScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(FinGreen)
+                .background(MainGreen)
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
@@ -93,7 +93,7 @@ fun AccountBalanceScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                            .background(FinGreenLight)
+                            .background(LightGreen)
                             .padding(horizontal = 24.dp)
                     ) {
                         Spacer(modifier = Modifier.height(24.dp))
@@ -106,7 +106,7 @@ fun AccountBalanceScreen(
                     TransactionItem(
                         transaction = transaction,
                         modifier = Modifier
-                            .background(FinGreenLight)
+                            .background(LightGreen)
                             .padding(horizontal = 24.dp)
                     )
                 }
@@ -116,7 +116,7 @@ fun AccountBalanceScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(24.dp)
-                            .background(FinGreenLight)
+                            .background(LightGreen)
                     )
                 }
             }
@@ -289,7 +289,7 @@ private fun AccountBalanceHeader(
                 label = "Income",
                 amount = income,
                 icon = R.drawable.home_income,
-                iconTint = FinGreenCard,
+                iconTint = MainGreen,
                 modifier = Modifier.weight(1f)
             )
             InfoCardGreen(
@@ -337,7 +337,7 @@ private fun InfoCardGreen(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = FinWhite)
+        colors = CardDefaults.cardColors(containerColor = BackgroundGreenWhiteAndLetters)
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -348,7 +348,7 @@ private fun InfoCardGreen(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(FinGreenLight),
+                    .background(LightGreen),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -373,7 +373,7 @@ private fun InfoCardGreen(
                     },
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = FinLogoDark
+                    color = LettersAndIcons
                 )
             }
         }
@@ -391,12 +391,12 @@ private fun TransactionsHeader(onSeeAllClick: () -> Unit) {
             text = "Transactions",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            color = FinLogoDark
+            color = LettersAndIcons
         )
         Text(
             text = "See all",
             fontSize = 14.sp,
-            color = FinLogoDark.copy(alpha = 0.6f),
+            color = LettersAndIcons.copy(alpha = 0.6f),
             fontWeight = FontWeight.Medium,
             modifier = Modifier.clickable { onSeeAllClick() }
         )
@@ -416,7 +416,7 @@ fun TransactionItem(transaction: Transaction, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(FinIconBlue),
+                .background(BlueButton),
             contentAlignment = Alignment.Center
         ) {
             Image(

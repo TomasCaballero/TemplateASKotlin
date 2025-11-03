@@ -32,7 +32,7 @@ fun SuccessfullyScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(FinGreen),
+            .background(MainGreen),
         contentAlignment = Alignment.Center
     ) {
         Column(

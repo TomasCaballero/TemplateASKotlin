@@ -33,14 +33,14 @@ fun SecurityScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(FinGreenLight)
+            .background(LightGreen)
     ) {
         // 1. HEADER VERDE
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)
-                .background(FinGreen)
+                .background(MainGreen)
                 .zIndex(1f)
         ) {
             // Top Navigation Bar
@@ -83,7 +83,7 @@ fun SecurityScreen(
                     Icon(
                         painter = painterResource(id = R.drawable.home_campana),
                         contentDescription = "Notifications",
-                        tint = FinGreen,
+                        tint = MainGreen,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -101,7 +101,7 @@ fun SecurityScreen(
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                color = FinGreenLight,
+                color = LightGreen,
                 shadowElevation = 0.dp
             ) {
                 Column(

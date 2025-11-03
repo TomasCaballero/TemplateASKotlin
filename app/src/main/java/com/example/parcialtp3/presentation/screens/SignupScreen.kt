@@ -105,7 +105,7 @@ fun SignupScreen(
                         .fillParentMaxHeight()
                         .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
                         .background(BackgroundGreenWhiteAndLetters)
-                        .padding(horizontal = 24.dp, vertical = 16.dp),
+                        .padding(horizontal = 24.dp, vertical = 25.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Column(
@@ -144,7 +144,7 @@ fun SignupScreen(
                                 keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (fullName.isEmpty()) {
                                         Text(
@@ -196,7 +196,7 @@ fun SignupScreen(
                                 keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (email.isEmpty()) {
                                         Text(
@@ -248,7 +248,7 @@ fun SignupScreen(
                                 keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (mobileNumber.isEmpty()) {
                                         Text(
@@ -300,7 +300,7 @@ fun SignupScreen(
                                 keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (dateOfBirth.isEmpty()) {
                                         Text(
@@ -358,7 +358,7 @@ fun SignupScreen(
                                 keyboardActions = KeyboardActions(
                                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (password.isEmpty()) {
                                         Text(
@@ -436,7 +436,7 @@ fun SignupScreen(
                                         }
                                     }
                                 ),
-                                cursorBrush = SolidColor(FinGreen),
+                                cursorBrush = SolidColor(MainGreen),
                                 decorationBox = { innerTextField ->
                                     if (confirmPassword.isEmpty()) {
                                         Text(
@@ -553,7 +553,7 @@ fun SignupScreen(
                             text = "Log In",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
-                            color = FinGreen,
+                            color = MainGreen,
                             modifier = Modifier.clickable { onLoginClick() }
                         )
                     }

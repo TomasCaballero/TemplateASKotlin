@@ -29,8 +29,8 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.Notification
 import com.example.parcialtp3.domain.model.NotificationGroup
 import com.example.parcialtp3.domain.model.NotificationType
-import com.example.parcialtp3.ui.theme.FinGreenCard
-import com.example.parcialtp3.ui.theme.FinIconBlue
+import com.example.parcialtp3.ui.theme.MainGreen
+import com.example.parcialtp3.ui.theme.BlueButton
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
 /**
@@ -90,7 +90,7 @@ fun NotificationItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(FinGreenCard),
+                .background(MainGreen),
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -134,7 +134,7 @@ fun NotificationItem(
         Text(
             text = notification.timestamp,
             fontSize = 12.sp,
-            color = FinIconBlue,
+            color = BlueButton,
             modifier = Modifier.padding(top = 2.dp)
         )
     }

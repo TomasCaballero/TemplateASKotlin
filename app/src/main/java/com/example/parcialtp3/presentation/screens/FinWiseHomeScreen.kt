@@ -52,13 +52,13 @@ fun FinWiseHomeScreen(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = FinGreen.toArgb()
+            window.statusBarColor = MainGreen.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }
 
     Scaffold(
-        containerColor = FinWhite,
+        containerColor = BackgroundGreenWhiteAndLetters,
         bottomBar = {
             BottomNavBar(
                 selectedItem = NavigationItem.HOME,
@@ -70,7 +70,7 @@ fun FinWiseHomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(FinGreen)
+                .background(MainGreen)
         ) {
             // Contenido desplazable
             LazyColumn(
@@ -93,7 +93,7 @@ fun FinWiseHomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-                            .background(FinWhite)
+                            .background(BackgroundGreenWhiteAndLetters)
                     ) {
                         Spacer(modifier = Modifier.height(24.dp))
 
@@ -125,7 +125,7 @@ fun FinWiseHomeScreen(
                     TransactionItem(
                         transaction = transaction,
                         modifier = Modifier
-                            .background(FinWhite)
+                            .background(BackgroundGreenWhiteAndLetters)
                             .padding(horizontal = 24.dp, vertical = 6.dp)
                     )
                 }
@@ -136,7 +136,7 @@ fun FinWiseHomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(24.dp)
-                            .background(FinWhite)
+                            .background(BackgroundGreenWhiteAndLetters)
                     )
                 }
             }

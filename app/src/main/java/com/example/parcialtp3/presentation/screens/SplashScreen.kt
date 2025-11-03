@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.parcialtp3.R
-import com.example.parcialtp3.ui.theme.FinGreen
+import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 import kotlinx.coroutines.delay
 
@@ -36,7 +36,7 @@ fun SplashScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = FinGreen
+        color = MainGreen
     ) {
         Column(
             modifier = Modifier

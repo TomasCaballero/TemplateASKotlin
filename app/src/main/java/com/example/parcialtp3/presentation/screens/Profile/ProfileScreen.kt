@@ -37,7 +37,7 @@ fun ProfileScreen(
     onLogoutClick: () -> Unit = {}
 ) {
     Scaffold(
-        containerColor = FinGreenLight,
+        containerColor = LightGreen,
         bottomBar = {
             BottomNavBar(
                 selectedItem = NavigationItem.PROFILE,
@@ -49,14 +49,14 @@ fun ProfileScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(FinGreenLight)
+                .background(LightGreen)
         ) {
             // 1. FONDO VERDE (Header)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .background(FinGreen)
+                    .background(MainGreen)
                     .zIndex(1f)
             ) {
                 // Top Navigation Bar
@@ -99,7 +99,7 @@ fun ProfileScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.home_campana),
                             contentDescription = "Notifications",
-                            tint = FinGreen,
+                            tint = MainGreen,
                             modifier = Modifier.size(20.dp)
                         )
                     }
@@ -117,7 +117,7 @@ fun ProfileScreen(
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                    color = FinGreenLight,
+                    color = LightGreen,
                     shadowElevation = 0.dp
                 ) {
                     Column(

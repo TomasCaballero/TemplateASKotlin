@@ -42,7 +42,7 @@ fun NotificationScreen(onBackClick: () -> Unit = {}) {
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = FinGreen.toArgb()
+            window.statusBarColor = MainGreen.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }
@@ -50,13 +50,13 @@ fun NotificationScreen(onBackClick: () -> Unit = {}) {
     val notificationGroups = getExampleNotifications()
 
     Scaffold(
-        containerColor = FinGreenLight,
+        containerColor = LightGreen,
     ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(FinGreen)
+                .background(MainGreen)
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
@@ -75,7 +75,7 @@ fun NotificationScreen(onBackClick: () -> Unit = {}) {
                         modifier = Modifier
                             .fillParentMaxWidth()
                             .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-                            .background(FinGreenLight)
+                            .background(LightGreen)
                             .padding(24.dp)
                     ) {
                         notificationGroups.forEach { group ->

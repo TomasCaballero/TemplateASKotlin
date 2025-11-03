@@ -42,13 +42,13 @@ fun ChangePinScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(FinGreenLight)
+            .background(LightGreen)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)
-                .background(FinGreen)
+                .background(MainGreen)
                 .zIndex(1f)
         ) {
             Row(
@@ -87,7 +87,7 @@ fun ChangePinScreen(
                     Icon(
                         painter = painterResource(id = R.drawable.home_campana),
                         contentDescription = "Notifications",
-                        tint = FinGreen,
+                        tint = MainGreen,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -104,7 +104,7 @@ fun ChangePinScreen(
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                color = FinGreenLight,
+                color = LightGreen,
                 shadowElevation = 0.dp
             ) {
                 Column(
@@ -155,7 +155,7 @@ fun ChangePinScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = FinGreen),
+                        colors = ButtonDefaults.buttonColors(containerColor = MainGreen),
                         shape = RoundedCornerShape(24.dp)
                     ) {
                         Text(

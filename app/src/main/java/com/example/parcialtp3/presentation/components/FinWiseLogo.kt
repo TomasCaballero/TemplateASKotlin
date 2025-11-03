@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.parcialtp3.ui.theme.FinGreen
+import com.example.parcialtp3.ui.theme.MainGreen
 
 /**
  * Logo de FinWise con gráfico de barras y línea de tendencia
@@ -21,7 +21,7 @@ import com.example.parcialtp3.ui.theme.FinGreen
 fun FinWiseLogo(
     modifier: Modifier = Modifier,
     size: Dp = 80.dp,
-    color: Color = FinGreen
+    color: Color = MainGreen
 ) {
     Canvas(modifier = modifier.size(size)) {
         val canvasWidth = this.size.width
