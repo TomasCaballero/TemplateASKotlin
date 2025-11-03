@@ -84,7 +84,7 @@ fun ProfileScreen(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = PoppinsFontFamily,
-                        color = Color.Black
+                        color = LettersAndIcons
                     )
 
                     // Notification button con círculo blanco
@@ -117,7 +117,7 @@ fun ProfileScreen(
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                    color = LightGreen,
+                    color = BackgroundGreenWhiteAndLetters,
                     shadowElevation = 0.dp
                 ) {
                     Column(
@@ -133,7 +133,7 @@ fun ProfileScreen(
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = PoppinsFontFamily,
-                            color = Color.Black,
+                            color = DarkModeGreenBar,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
 
@@ -145,7 +145,7 @@ fun ProfileScreen(
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold,
                             fontFamily = PoppinsFontFamily,
-                            color = Color.DarkGray,
+                            color = LettersAndIcons,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
 

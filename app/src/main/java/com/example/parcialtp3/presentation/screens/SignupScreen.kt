@@ -552,8 +552,8 @@ fun SignupScreen(
                         Text(
                             text = "Log In",
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MainGreen,
+                            fontWeight = FontWeight.Normal,
+                            color = BlueButton,
                             modifier = Modifier.clickable { onLoginClick() }
                         )
                     }

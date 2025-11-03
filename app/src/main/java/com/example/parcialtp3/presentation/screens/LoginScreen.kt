@@ -41,10 +41,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 
-/**
- * Pantalla de inicio de sesión de FinWise
- * Convertida desde login.html con diseño de card flotante
- */
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
@@ -68,7 +64,7 @@ fun LoginScreen(
                 onLoginSuccess()
                 viewModel.resetState()
             }
-            else -> { /* Otros estados se manejan en el UI */ }
+            else -> { }
         }
     }
 
@@ -80,7 +76,6 @@ fun LoginScreen(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Header Section (on green background)
             item {
                 Box(
                     modifier = Modifier
@@ -97,7 +92,6 @@ fun LoginScreen(
                 }
             }
 
-            // White section with rounded top corners
             item {
                 Column(
                     modifier = Modifier
@@ -108,7 +102,6 @@ fun LoginScreen(
                         .padding(start = 24.dp, top = 100.dp, bottom = 16.dp, end = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
-                    // Username/Email Field
                     Column(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -161,7 +154,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Password Field
                     Column(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -238,7 +230,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Mostrar mensaje de error si existe
                     if (uiState is LoginUiState.Error) {
                         Text(
                             text = (uiState as LoginUiState.Error).message,
@@ -252,7 +243,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(40.dp))
 
-                    // Log In Button (Primary Action)
                     Button(
                         onClick = {
                             if (email.isNotBlank() && password.isNotBlank()) {
@@ -290,7 +280,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Forgot Password Link
                     Text(
                         text = "Forgot Password?",
                         fontSize = 13.sp,
@@ -303,7 +292,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Sign Up Button (Secondary Action)
                     Button(
                         onClick = onSignUpClick,
                         modifier = Modifier
@@ -312,8 +300,8 @@ fun LoginScreen(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = LightGreen,
                             contentColor = Color.White,
-                            disabledContainerColor = MainGreen.copy(alpha = 1.0f),  // ← Agregá esto
-                            disabledContentColor = Color.White.copy(alpha = 1.0f)   // ← Y esto
+                            disabledContainerColor = MainGreen.copy(alpha = 1.0f),
+                            disabledContentColor = Color.White.copy(alpha = 1.0f)
                         ),
                         shape = RoundedCornerShape(24.dp)
                     ) {
@@ -328,7 +316,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Fingerprint Access Section
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center,
@@ -363,7 +350,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Divider/Social Login Prompt
                     Text(
                         text = "or sign up with",
                         fontSize = 11.sp,
@@ -409,8 +395,8 @@ fun LoginScreen(
                         Text(
                             text = "Sign Up",
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MainGreen ,
+                            fontWeight = FontWeight.Normal,
+                            color = BlueButton,
                             modifier = Modifier.clickable { onSignUpClick() }
                         )
                     }

@@ -16,6 +16,7 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.ui.theme.BackgroundGreenWhiteAndLetters
 import com.example.parcialtp3.ui.theme.LettersAndIcons
+import com.example.parcialtp3.ui.theme.LightGreen
 import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
@@ -31,7 +32,7 @@ fun BottomNavBar(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = BackgroundGreenWhiteAndLetters,
+        color = LightGreen,
         shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
         shadowElevation = 8.dp
     ) {

@@ -106,7 +106,7 @@ fun CategoriesScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                            .background(LightGreen)
+                            .background(BackgroundGreenWhiteAndLetters)
                             .padding(horizontal = 24.dp)
                     ) {
                         Spacer(modifier = Modifier.height(32.dp))

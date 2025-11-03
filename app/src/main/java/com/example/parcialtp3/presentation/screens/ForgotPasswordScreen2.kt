@@ -3,6 +3,7 @@ package com.example.parcialtp3.presentation.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -18,6 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.parcialtp3.ui.theme.DarkModeGreenBar
+import com.example.parcialtp3.ui.theme.MainGreen
 
 @Composable
 fun ForgotPasswordScreen2(
@@ -32,22 +35,21 @@ fun ForgotPasswordScreen2(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0d9488)) // Emerald 700
+            .background(MainGreen)
     ) {
-        // Top section with title
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.30f)
                 .padding(bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "Security Pin",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = DarkModeGreenBar,
                 textAlign = TextAlign.Center
             )
         }
