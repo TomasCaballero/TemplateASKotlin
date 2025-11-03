@@ -37,7 +37,7 @@ import java.util.Locale
 fun AccountBalanceScreen(
     totalBalance: Double = 7783.00,
     totalExpense: Double = -1187.40,
-    income: Double = 4000.00,
+    income: Double = 4000.0,
     expense: Double = -1187.40,
     maxBudget: Double = 20000.00,
     onBackClick: () -> Unit = {},
@@ -81,6 +81,8 @@ fun AccountBalanceScreen(
                         totalExpense = totalExpense,
                         usagePercentage = usagePercentage,
                         maxBudget = maxBudget,
+                        income = income,
+                        expense = expense,
                         onBackClick = onBackClick,
                         onNotificationClick = onNotificationClick
                     )
@@ -90,14 +92,10 @@ fun AccountBalanceScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-                            .background(FinWhite)
+                            .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
+                            .background(FinGreenLight)
                             .padding(horizontal = 24.dp)
                     ) {
-                        Spacer(modifier = Modifier.height(24.dp))
-                        IncomeExpenseCards(income = income, expense = expense)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        CheckMessage(usagePercentage = usagePercentage)
                         Spacer(modifier = Modifier.height(24.dp))
                         TransactionsHeader(onSeeAllClick = onSeeAllClick)
                         Spacer(modifier = Modifier.height(16.dp))
@@ -108,7 +106,7 @@ fun AccountBalanceScreen(
                     TransactionItem(
                         transaction = transaction,
                         modifier = Modifier
-                            .background(FinWhite)
+                            .background(FinGreenLight)
                             .padding(horizontal = 24.dp)
                     )
                 }
@@ -118,7 +116,7 @@ fun AccountBalanceScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(24.dp)
-                            .background(FinWhite)
+                            .background(FinGreenLight)
                     )
                 }
             }
@@ -132,6 +130,8 @@ private fun AccountBalanceHeader(
     totalExpense: Double,
     usagePercentage: Int,
     maxBudget: Double,
+    income: Double,
+    expense: Double,
     onBackClick: () -> Unit,
     onNotificationClick: () -> Unit
 ) {
@@ -144,7 +144,7 @@ private fun AccountBalanceHeader(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 24.dp),
+                .padding(top = 16.dp, bottom = 24.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -160,44 +160,91 @@ private fun AccountBalanceHeader(
                 text = "Account Balance",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.White
+                color = Color.Black
             )
-            IconButton(
-                onClick = onNotificationClick,
-                modifier = Modifier
-                    .size(48.dp)
-                    .background(
-                        color = Color.White.copy(alpha = 0.2f),
-                        shape = RoundedCornerShape(50)
-                    )
-            ) {
+            IconButton(onClick = onNotificationClick) {
                 Image(
                     painter = painterResource(id = R.drawable.home_campana),
                     contentDescription = "Notifications",
                     colorFilter = ColorFilter.tint(Color.White),
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(28.dp)
                 )
             }
         }
 
-        // Balance Cards
+        // Balance Summary - Lado a lado
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 24.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(bottom = 16.dp),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            BalanceCard(
-                label = "Total Balance",
-                amount = totalBalance,
-                modifier = Modifier.weight(1f)
+            // Total Balance
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.home_income),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Total Balance",
+                        fontSize = 14.sp,
+                        color = Color.Black.copy(alpha = 0.8f)
+                    )
+                }
+                Text(
+                    text = "$${String.format(Locale.US, "%.2f", totalBalance)}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+
+            // Vertical Divider
+            Box(
+                modifier = Modifier
+                    .width(1.dp)
+                    .height(48.dp)
+                    .background(Color.White.copy(alpha = 0.3f))
             )
-            BalanceCard(
-                label = "Total Expense",
-                amount = totalExpense,
-                amountColor = MaterialTheme.colorScheme.error,
-                modifier = Modifier.weight(1f)
-            )
+
+            // Total Expense
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.home_expense),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Total Expense",
+                        fontSize = 14.sp,
+                        color = Color.Black.copy(alpha = 0.8f)
+                    )
+                }
+                Text(
+                    text = "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(totalExpense))}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFFFF6B6B),
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
         }
 
         // Progress Bar
@@ -208,85 +255,79 @@ private fun AccountBalanceHeader(
             ) {
                 Text(
                     text = "$usagePercentage%",
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
                     color = Color.White
                 )
                 Text(
-                    text = "${String.format(Locale.US, "%.2f", maxBudget)}",
-                    fontSize = 12.sp,
+                    text = "$${String.format(Locale.US, "%.2f", maxBudget)}",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
                     color = Color.White
                 )
             }
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             LinearProgressIndicator(
                 progress = { usagePercentage / 100f },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(8.dp)
+                    .height(10.dp)
                     .clip(RoundedCornerShape(50)),
-                color = Color.DarkGray,
+                color = Color(0xFF2F2F2F),
                 trackColor = Color.White.copy(alpha = 0.3f),
             )
         }
-    }
-}
 
-@Composable
-private fun BalanceCard(
-    label: String,
-    amount: Double,
-    modifier: Modifier = Modifier,
-    amountColor: Color = Color.White
-) {
-    Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White.copy(alpha = 0.2f)
-        )
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = label,
-                fontSize = 12.sp,
-                color = Color.White.copy(alpha = 0.8f),
-                modifier = Modifier.padding(bottom = 4.dp)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Income/Expense Cards
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            InfoCardGreen(
+                label = "Income",
+                amount = income,
+                icon = R.drawable.home_income,
+                iconTint = FinGreenCard,
+                modifier = Modifier.weight(1f)
             )
+            InfoCardGreen(
+                label = "Expense",
+                amount = expense,
+                icon = R.drawable.home_expense,
+                iconTint = Color(0xFFFF6B6B),
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Check Message
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = "${String.format(Locale.US, "%.2f", amount)}",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = amountColor
+                text = "$usagePercentage% Of Your Expenses, Looks Good.",
+                fontSize = 14.sp,
+                color = Color.White.copy(alpha = 0.9f),
+                fontWeight = FontWeight.Medium
             )
         }
     }
 }
 
 @Composable
-private fun IncomeExpenseCards(income: Double, expense: Double) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        InfoCard(
-            label = "Income",
-            amount = income,
-            icon = R.drawable.home_income,
-            iconTint = FinGreen,
-            modifier = Modifier.weight(1f)
-        )
-        InfoCard(
-            label = "Expense",
-            amount = expense,
-            icon = R.drawable.home_expense,
-            iconTint = FinIconBlue,
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
-
-@Composable
-private fun InfoCard(
+private fun InfoCardGreen(
     label: String,
     amount: Double,
     icon: Int,
@@ -296,60 +337,46 @@ private fun InfoCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = FinWhite),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, FinGreenPale)
+        colors = CardDefaults.cardColors(containerColor = FinWhite)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 8.dp)
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(FinGreenLight),
+                contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = painterResource(id = icon),
                     contentDescription = label,
                     colorFilter = ColorFilter.tint(iconTint),
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(end = 8.dp)
+                    modifier = Modifier.size(24.dp)
                 )
+            }
+            Column {
                 Text(
                     text = label,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Medium
+                )
+                Text(
+                    text = if (amount >= 0) {
+                        "$${String.format(Locale.US, "%.2f", amount)}"
+                    } else {
+                        "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(amount))}"
+                    },
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
                     color = FinLogoDark
                 )
             }
-            Text(
-                text = "${String.format(Locale.US, "%.2f", amount)}",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = FinLogoDark
-            )
         }
-    }
-}
-
-@Composable
-private fun CheckMessage(usagePercentage: Int) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = Icons.Default.CheckCircle,
-            contentDescription = null,
-            tint = FinGreen,
-            modifier = Modifier.size(16.dp)
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(
-            text = "$usagePercentage% Of Your Expenses, Looks Good.",
-            fontSize = 12.sp,
-            color = FinLogoDark.copy(alpha = 0.8f),
-            fontWeight = FontWeight.Medium
-        )
     }
 }
 
@@ -378,60 +405,72 @@ private fun TransactionsHeader(onSeeAllClick: () -> Unit) {
 
 @Composable
 fun TransactionItem(transaction: Transaction, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Row(
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Icono circular azul
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(FinIconBlue),
+            contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(FinGreenPale),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = transaction.iconRes),
-                    contentDescription = transaction.title,
-                    colorFilter = ColorFilter.tint(FinGreen),
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = transaction.title,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = FinLogoDark
-                )
-                Text(
-                    text = transaction.dateTime,
-                    fontSize = 12.sp,
-                    color = FinLogoDark.copy(alpha = 0.6f)
-                )
-            }
-            Column(horizontalAlignment = Alignment.End) {
-                Text(
-                    text = if (transaction.amount >= 0) {
-                        "+${String.format(Locale.US, "%.2f", transaction.amount)}"
-                    } else {
-                        "-${String.format(Locale.US, "%.2f", kotlin.math.abs(transaction.amount))}"
-                    },
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = if (transaction.amount >= 0) FinGreen else MaterialTheme.colorScheme.error
-                )
-                Text(
-                    text = transaction.category,
-                    fontSize = 12.sp,
-                    color = FinLogoDark.copy(alpha = 0.6f)
-                )
-            }
+            Image(
+                painter = painterResource(id = transaction.iconRes),
+                contentDescription = transaction.title,
+                colorFilter = ColorFilter.tint(Color.White),
+                modifier = Modifier.size(24.dp)
+            )
         }
-        Divider(color = FinGreenPale, thickness = 1.dp)
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        // Información de la transacción
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = transaction.title,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1F1F1F)
+            )
+            Text(
+                text = transaction.dateTime,
+                fontSize = 12.sp,
+                color = Color.Gray
+            )
+        }
+
+        // Categoría
+        Text(
+            text = transaction.category,
+            fontSize = 14.sp,
+            color = Color(0xFF666666)
+        )
+
+        // Divisor vertical
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .width(1.dp)
+                .height(24.dp)
+                .background(Color(0xFFD1D1D1))
+        )
+
+        // Monto
+        Text(
+            text = if (transaction.amount >= 0) {
+                "$${String.format(Locale.US, "%.2f", transaction.amount)}"
+            } else {
+                "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(transaction.amount))}"
+            },
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = if (transaction.amount >= 0) Color(0xFF1F1F1F) else Color(0xFFFF6B6B)
+        )
     }
 }
 

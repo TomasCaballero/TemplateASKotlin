@@ -142,7 +142,7 @@ fun TransactionItemPreview() {
                     id = 1,
                     title = "Salary",
                     category = "Monthly",
-                    amount = 4000.00,
+                    amount = 4000.0,
                     date = "April 30",
                     time = "18:27",
                     type = TransactionType.INCOME,

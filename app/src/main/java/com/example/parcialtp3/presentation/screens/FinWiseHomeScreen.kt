@@ -172,12 +172,12 @@ private fun HomeHeader(
                     text = "Hi, Welcome Back",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.Black
                 )
                 Text(
                     text = "Good Morning",
                     fontSize = 14.sp,
-                    color = Color.White.copy(alpha = 0.8f)
+                    color = Color.Black.copy(alpha = 0.8f)
                 )
             }
 
@@ -221,7 +221,7 @@ private fun HomeHeader(
                     Text(
                         text = "TOTAL BALANCE",
                         fontSize = 12.sp,
-                        color = Color.White.copy(alpha = 0.8f),
+                        color = Color.Black.copy(alpha = 0.8f),
                         fontWeight = FontWeight.Medium
                     )
                 }
@@ -246,7 +246,7 @@ private fun HomeHeader(
                 Text(
                     text = "TOTAL EXPENSE",
                     fontSize = 12.sp,
-                    color = Color.White.copy(alpha = 0.8f),
+                    color = Color.Black.copy(alpha = 0.8f),
                     fontWeight = FontWeight.Medium
                 )
                 Spacer(modifier = Modifier.height(4.dp))

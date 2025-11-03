@@ -164,7 +164,7 @@ fun GoalsCardPreview() {
                 .padding(16.dp)
         ) {
             GoalsCard(
-                revenueLastWeek = 4000.00,
+                revenueLastWeek = 4000.0,
                 foodLastWeek = -100.00
             )
         }
