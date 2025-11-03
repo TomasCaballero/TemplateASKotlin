@@ -17,13 +17,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.parcialtp3.ui.theme.*
 import kotlinx.coroutines.delay
 
 @Composable
 fun ForgotPasswordScreen4(
     onNavigateNext: () -> Unit = {}
 ) {
-    // Auto-navigate after 3 seconds
     LaunchedEffect(Unit) {
         delay(3000)
         onNavigateNext()
@@ -32,7 +32,7 @@ fun ForgotPasswordScreen4(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0d9488)) // Emerald 700
+            .background(MainGreen)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -46,28 +46,26 @@ fun ForgotPasswordScreen4(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(32.dp)
         ) {
-            // Success Circle with Dot
             Box(
                 modifier = Modifier
                     .size(150.dp)
-                    .background(Color.White, CircleShape),
+                    .background(BackgroundGreenWhiteAndLetters, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
                         .size(15.dp)
-                        .background(Color(0xFF0d9488), CircleShape)
+                        .background(MainGreen, CircleShape)
                 )
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Success Message
             Text(
                 text = "Password Has Been Changed Successfully",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.White,
+                color = LettersAndIcons,
                 textAlign = TextAlign.Center,
                 lineHeight = 32.sp
             )
