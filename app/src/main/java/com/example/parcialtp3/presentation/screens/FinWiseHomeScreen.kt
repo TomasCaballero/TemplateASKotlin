@@ -110,7 +110,7 @@ fun FinWiseHomeScreen(
                         TransactionTabs(
                             selectedTab = uiState.selectedTab,
                             onTabSelected = { viewModel.selectTab(it) },
-                            modifier = Modifier.padding(horizontal = 24.dp)
+                            modifier = Modifier.padding(horizontal = 20.dp)
                         )
 
                         Spacer(modifier = Modifier.height(24.dp))
@@ -219,7 +219,7 @@ private fun HomeHeader(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Row {
                     Text(
-                        text = "TOTAL BALANCE",
+                        text = "Total Balance",
                         fontSize = 12.sp,
                         color = Color.Black.copy(alpha = 0.8f),
                         fontWeight = FontWeight.Medium
@@ -254,7 +254,7 @@ private fun HomeHeader(
                     text = "-$${String.format("%.2f", -totalExpense)}",
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = BlueButton
                 )
             }
         }

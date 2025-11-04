@@ -1,14 +1,17 @@
 package com.example.parcialtp3.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -17,6 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.parcialtp3.R
+import com.example.parcialtp3.ui.theme.BackgroundGreenWhiteAndLetters
+import com.example.parcialtp3.ui.theme.BlueButton
+import com.example.parcialtp3.ui.theme.LettersAndIcons
+import com.example.parcialtp3.ui.theme.LightGreen
 import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
@@ -51,105 +58,120 @@ fun GoalsCard(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Icono Coche con borde
-                Surface(
-                    shape = CircleShape,
-                    color = Color.White.copy(alpha = 0.2f),
-                    modifier = Modifier
-                        .size(64.dp)
-                        .border(
-                            width = 2.dp,
-                            color = Color.White.copy(alpha = 0.5f),
-                            shape = CircleShape
+                Column(
+                    modifier = Modifier.width(120.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Surface(
+                        shape = CircleShape,
+                        color = MainGreen,
+                        modifier = Modifier
+                            .size(64.dp)
+                            .border(
+                                width = 2.dp,
+                                brush = Brush.horizontalGradient(
+                                    0.0f to LightGreen,
+                                    0.5f to LightGreen,
+                                    0.5f to BlueButton,
+                                    1.0f to BlueButton
+                                ),
+                                shape = CircleShape
+                            )
+                    ){
+                        Image(
+                            painter = painterResource(id = R.drawable.home_car),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(LettersAndIcons),
+                            modifier = Modifier.padding(16.dp)
                         )
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_car),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
+                    }
 
-                Column {
-                    Text(
-                        text = "Savings",
-                        fontSize = 12.sp,
-                        color = Color.White.copy(alpha = 0.9f)
-                    )
-                    Text(
-                        text = "On Goals",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
-            }
-
-            // Separador
-            Divider(
-                modifier = Modifier
-                    .height(64.dp)
-                    .width(1.dp),
-                color = Color.White.copy(alpha = 0.3f)
-            )
-
-            // Lado Derecho: Resumen Semanal
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Revenue Last Week
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_income),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Column {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
                         Text(
-                            text = "Revenue Last Week",
-                            fontSize = 10.sp,
-                            color = Color.White.copy(alpha = 0.9f)
+                            text = "Savings",
+                            fontSize = 12.sp,
+                            color = LettersAndIcons
                         )
                         Text(
-                            text = "$${String.format("%.2f", revenueLastWeek)}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
+                            text = "On Goals",
+                            fontSize = 12.sp,
+                            color = LettersAndIcons
                         )
                     }
                 }
 
-                // Food Last Week
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                VerticalDivider(
+                    thickness = 2.dp,
+                    color = BackgroundGreenWhiteAndLetters,
+                    modifier = Modifier.height(120.dp)
+                )
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_food),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier.size(20.dp)
+                    // Revenue Last Week
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.home_salary),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(LettersAndIcons),
+                            modifier = Modifier.size(35.dp)
+                        )
+                        Column {
+                            Text(
+                                text = "Revenue Last Week",
+                                fontSize = 12.sp,
+                                color = LettersAndIcons
+                            )
+                            Text(
+                                text = "$${String.format("%.2f", revenueLastWeek)}",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = if (revenueLastWeek >= 0f) LettersAndIcons else BlueButton
+                            )
+                        }
+                    }
+
+                    HorizontalDivider(
+                        thickness = 2.dp,
+                        color = BackgroundGreenWhiteAndLetters,
+                        modifier = Modifier.width(200.dp)
                     )
-                    Column {
-                        Text(
-                            text = "Food Last Week",
-                            fontSize = 10.sp,
-                            color = Color.White.copy(alpha = 0.9f)
+
+                    // Food Last Week
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.home_food),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(LettersAndIcons),
+                            modifier = Modifier.size(35.dp)
                         )
-                        Text(
-                            text = "-$${String.format("%.2f", -foodLastWeek)}",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.White
-                        )
+                        Column {
+                            Text(
+                                text = "Food Last Week",
+                                fontSize = 12.sp,
+                                color = LettersAndIcons
+                            )
+                            Text(
+                                text = "-$${String.format("%.2f", -foodLastWeek)}",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = if (foodLastWeek >= 0f) LettersAndIcons else BlueButton
+                            )
+                        }
                     }
                 }
+
             }
+
         }
     }
 }
