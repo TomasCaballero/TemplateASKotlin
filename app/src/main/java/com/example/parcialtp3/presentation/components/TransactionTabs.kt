@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.parcialtp3.presentation.viewmodels.TimeTab
+import com.example.parcialtp3.ui.theme.LettersAndIcons
+import com.example.parcialtp3.ui.theme.LightGreen
 import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
@@ -27,7 +29,7 @@ fun TransactionTabs(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(50.dp),
-        color = Color(0xFFF5F5F5)
+        color = LightGreen
     ) {
         Row(
             modifier = Modifier
@@ -71,16 +73,17 @@ private fun TabButton(
     Button(
         onClick = onClick,
         modifier = modifier
-            .height(40.dp),
-        shape = RoundedCornerShape(50.dp),
+            .height(45.dp)
+            .padding(15.dp, 0.dp),
+        shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSelected) MainGreen else Color.Transparent,
-            contentColor = if (isSelected) Color.White else Color.Gray
+            contentColor = LettersAndIcons
         ),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = if (isSelected) 4.dp else 0.dp
         ),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp)
     ) {
         Text(
             text = text,
