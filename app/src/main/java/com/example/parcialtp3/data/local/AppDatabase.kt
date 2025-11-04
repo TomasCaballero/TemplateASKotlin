@@ -3,7 +3,9 @@ package com.example.parcialtp3.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.parcialtp3.data.local.dao.ExampleDao
+import com.example.parcialtp3.data.local.dao.ExpenseDao
 import com.example.parcialtp3.data.local.entities.ExampleEntity
+import com.example.parcialtp3.data.local.entities.ExpenseEntity
 
 /**
  * Room Database for the application
@@ -14,8 +16,11 @@ import com.example.parcialtp3.data.local.entities.ExampleEntity
  * - exportSchema: Whether to export schema to a folder (useful for version control)
  */
 @Database(
-    entities = [ExampleEntity::class],
-    version = 1,
+    entities = [
+        ExampleEntity::class,
+        ExpenseEntity::class
+    ],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -26,6 +31,5 @@ abstract class AppDatabase : RoomDatabase() {
      */
     abstract fun exampleDao(): ExampleDao
 
-    // Add more DAOs here as needed
-    // abstract fun anotherDao(): AnotherDao
+    abstract fun expenseDao(): ExpenseDao
 }

@@ -9,10 +9,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,6 +36,41 @@ import com.example.parcialtp3.domain.model.NotificationType
 import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.BlueButton
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
+
+/**
+ * Botón de notificaciones reutilizable con badge
+ * Diseño consistente para todas las pantallas
+ */
+@Composable
+fun NotificationButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        IconButton(
+            onClick = onClick,
+            modifier = Modifier
+                .size(48.dp)
+                .background(
+                    color = Color.White.copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(50)
+                )
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.home_campana),
+                contentDescription = "Notifications",
+                colorFilter = ColorFilter.tint(Color.White),
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        // Badge de notificación (punto rojo)
+        Badge(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .offset(x = (-4).dp, y = 4.dp)
+        )
+    }
+}
 
 /**
  * Componente para mostrar un grupo de notificaciones

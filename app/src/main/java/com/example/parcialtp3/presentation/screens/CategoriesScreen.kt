@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -29,6 +30,7 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.ui.theme.*
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.NotificationButton
 
 data class Category(
     val name: String,
@@ -82,7 +84,6 @@ fun CategoriesScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .background(MainGreen)
         ) {
             LazyColumn(
@@ -207,7 +208,7 @@ fun CategoriesScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(24.dp + paddingValues.calculateBottomPadding()))
                     }
                 }
             }
@@ -239,34 +240,20 @@ private fun CategoriesHeader(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBackClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.bring_back),
-                    contentDescription = "Back",
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
+        }
             Text(
                 text = "Categories",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Black
             )
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(Color.White)
-                    .clickable(onClick = onNotificationClick),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.home_campana),
-                    contentDescription = "Notifications",
-                    tint = MainGreen,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
+            NotificationButton(onClick = onNotificationClick)
         }
 
         // Balance Summary - Lado a lado

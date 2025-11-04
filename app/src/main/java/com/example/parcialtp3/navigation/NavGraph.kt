@@ -27,7 +27,13 @@ sealed class Screen(val route: String) {
     data object Security : Screen("security")
     data object AccountBalance : Screen("account_balance")
     data object Transaction : Screen("transaction")
-    data object Categories : Screen("categories")  // ← AGREGADO
+    data object Categories : Screen("categories")
+    data object CategoryDetail : Screen("category_detail/{categoryName}") {
+        fun createRoute(categoryName: String) = "category_detail/$categoryName"
+    }
+    data object AddExpense : Screen("add_expense/{categoryName}") {
+        fun createRoute(categoryName: String) = "add_expense/$categoryName"
+    }
     data object ChangePin : Screen("change_pin")
     data object Successfully : Screen("successfully/{message}") {
         fun createRoute(message: String) = "successfully/$message"
@@ -301,6 +307,9 @@ fun NavGraph(
                 onBackClick = {
                     navController.popBackStack()
                 },
+                onNotificationClick = {
+                    navController.navigate(Screen.Notification.route)
+                },
                 onNavigationItemSelected = { navigationItem ->
                     when (navigationItem) {
                         com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
@@ -333,6 +342,9 @@ fun NavGraph(
             TransactionScreen(
                 onBackClick = {
                     navController.popBackStack()
+                },
+                onNotificationClick = {
+                    navController.navigate(Screen.Notification.route)
                 },
                 onNavigationItemSelected = { navigationItem ->
                     when (navigationItem) {
@@ -393,7 +405,91 @@ fun NavGraph(
                     }
                 },
                 onCategoryClick = { category ->
-                    // TODO: Navegar a detalles de categoría si es necesario
+                    navController.navigate(Screen.CategoryDetail.createRoute(category.name))
+                }
+            )
+        }
+
+        // Category Detail Screen
+        composable(
+            route = Screen.CategoryDetail.route,
+            arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val categoryName = backStackEntry.arguments?.getString("categoryName") ?: "Category"
+            CategoryDetailScreen(
+                categoryName = categoryName,
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onNotificationClick = {
+                    navController.navigate(Screen.Notification.route)
+                },
+                onNavigationItemSelected = { navigationItem ->
+                    when (navigationItem) {
+                        com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
+                            navController.navigate(Screen.FinWiseHome.route) {
+                                popUpTo(Screen.FinWiseHome.route) { inclusive = false }
+                            }
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
+                            navController.navigate(Screen.Profile.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
+                            navController.navigate(Screen.AccountBalance.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
+                            navController.navigate(Screen.Transaction.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.WALLET -> {
+                            navController.navigate(Screen.Categories.route)
+                        }
+                        else -> {}
+                    }
+                },
+                onAddExpenseClick = {
+                    navController.navigate(Screen.AddExpense.createRoute(categoryName))
+                }
+            )
+        }
+
+        // Add Expense Screen
+        composable(
+            route = Screen.AddExpense.route,
+            arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val categoryName = backStackEntry.arguments?.getString("categoryName") ?: "Food"
+            AddExpenseScreen(
+                categoryName = categoryName,
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onNotificationClick = {
+                    navController.navigate(Screen.Notification.route)
+                },
+                onNavigationItemSelected = { navigationItem ->
+                    when (navigationItem) {
+                        com.example.parcialtp3.domain.model.NavigationItem.HOME -> {
+                            navController.navigate(Screen.FinWiseHome.route) {
+                                popUpTo(Screen.FinWiseHome.route) { inclusive = false }
+                            }
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.PROFILE -> {
+                            navController.navigate(Screen.Profile.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.STATS -> {
+                            navController.navigate(Screen.AccountBalance.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.TRANSFER -> {
+                            navController.navigate(Screen.Transaction.route)
+                        }
+                        com.example.parcialtp3.domain.model.NavigationItem.WALLET -> {
+                            navController.navigate(Screen.Categories.route)
+                        }
+                        else -> {}
+                    }
+                },
+                onExpenseSaved = {
+                    navController.popBackStack()
                 }
             )
         }

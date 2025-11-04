@@ -5,11 +5,14 @@ import androidx.room.Room
 import com.example.parcialtp3.data.local.AppDatabase
 import com.example.parcialtp3.data.local.TokenManager
 import com.example.parcialtp3.data.local.dao.ExampleDao
+import com.example.parcialtp3.data.local.dao.ExpenseDao
 import com.example.parcialtp3.data.remote.api.ApiService
 import com.example.parcialtp3.data.repository.AuthRepositoryImpl
 import com.example.parcialtp3.data.repository.ExampleRepositoryImpl
+import com.example.parcialtp3.data.repository.ExpenseRepositoryImpl
 import com.example.parcialtp3.domain.repository.AuthRepository
 import com.example.parcialtp3.domain.repository.ExampleRepository
+import com.example.parcialtp3.domain.repository.ExpenseRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -122,6 +125,12 @@ object AppModule {
         return database.exampleDao()
     }
 
+    @Provides
+    @Singleton
+    fun provideExpenseDao(database: AppDatabase): ExpenseDao {
+        return database.expenseDao()
+    }
+
     // ==================== FIREBASE ====================
 
     /**
@@ -177,5 +186,13 @@ object AppModule {
         firestore: FirebaseFirestore
     ): ExampleRepository {
         return ExampleRepositoryImpl(apiService, exampleDao, firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExpenseRepository(
+        expenseDao: ExpenseDao
+    ): ExpenseRepository {
+        return ExpenseRepositoryImpl(expenseDao)
     }
 }

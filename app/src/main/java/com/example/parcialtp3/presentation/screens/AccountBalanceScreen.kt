@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.core.view.WindowCompat
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.ui.theme.*
 import java.util.Locale
 
@@ -149,10 +151,10 @@ private fun AccountBalanceHeader(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBackClick) {
-                Image(
-                    painter = painterResource(id = R.drawable.profile_logout), // TODO: Replace with back arrow
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
-                    colorFilter = ColorFilter.tint(Color.White),
+                    tint = Color.White,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -162,14 +164,7 @@ private fun AccountBalanceHeader(
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Black
             )
-            IconButton(onClick = onNotificationClick) {
-                Image(
-                    painter = painterResource(id = R.drawable.home_campana),
-                    contentDescription = "Notifications",
-                    colorFilter = ColorFilter.tint(Color.White),
-                    modifier = Modifier.size(28.dp)
-                )
-            }
+            NotificationButton(onClick = onNotificationClick)
         }
 
         // Balance Summary - Lado a lado
