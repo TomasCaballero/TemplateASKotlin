@@ -49,7 +49,7 @@ fun GoalsCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp),
+                .padding(5.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -105,7 +105,7 @@ fun GoalsCard(
                 VerticalDivider(
                     thickness = 2.dp,
                     color = BackgroundGreenWhiteAndLetters,
-                    modifier = Modifier.height(120.dp)
+                    modifier = Modifier.height(90.dp)
                 )
 
                 Column(
@@ -140,7 +140,7 @@ fun GoalsCard(
                     HorizontalDivider(
                         thickness = 2.dp,
                         color = BackgroundGreenWhiteAndLetters,
-                        modifier = Modifier.width(200.dp)
+                        modifier = Modifier.width(170.dp)
                     )
 
                     // Food Last Week

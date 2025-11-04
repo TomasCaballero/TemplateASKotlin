@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,9 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.colorspace.WhitePoint
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +33,7 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.presentation.components.BottomNavBar
 import com.example.parcialtp3.presentation.components.GoalsCard
+import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.presentation.components.TransactionItem
 import com.example.parcialtp3.presentation.components.TransactionTabs
 import com.example.parcialtp3.presentation.viewmodels.HomeViewModel
@@ -95,7 +99,7 @@ fun FinWiseHomeScreen(
                             .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
                             .background(BackgroundGreenWhiteAndLetters)
                     ) {
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
 
                         // Goals Card
                         GoalsCard(
@@ -104,7 +108,7 @@ fun FinWiseHomeScreen(
                             modifier = Modifier.padding(horizontal = 24.dp)
                         )
 
-                        Spacer(modifier = Modifier.height(32.dp))
+                        Spacer(modifier = Modifier.height(28.dp))
 
                         // Transaction Tabs
                         TransactionTabs(
@@ -113,7 +117,7 @@ fun FinWiseHomeScreen(
                             modifier = Modifier.padding(horizontal = 20.dp)
                         )
 
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(17.dp))
                     }
                 }
 
@@ -126,7 +130,7 @@ fun FinWiseHomeScreen(
                         transaction = transaction,
                         modifier = Modifier
                             .background(BackgroundGreenWhiteAndLetters)
-                            .padding(horizontal = 24.dp, vertical = 6.dp)
+                            .padding(horizontal = 24.dp, vertical = 10.dp)
                     )
                 }
 
@@ -163,7 +167,8 @@ private fun HomeHeader(
     ) {
         // Saludo y Notificación
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -181,47 +186,33 @@ private fun HomeHeader(
                 )
             }
 
-            // Botón de notificación
-            Box {
-                IconButton(
-                    onClick = onNotificationClick,
-                    modifier = Modifier
-                        .size(48.dp)
-                        .background(
-                            color = Color.White.copy(alpha = 0.2f),
-                            shape = RoundedCornerShape(50)
-                        )
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_campana),
-                        contentDescription = "Notifications",
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-                // Badge de notificación (punto rojo)
-                Badge(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .offset(x = (-4).dp, y = 4.dp)
-                )
-            }
+            NotificationButton(onNotificationClick)
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         // Balance y Gastos
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Row {
+            Column(horizontalAlignment = Alignment.Start) {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(start = 3.dp)
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.income),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(LettersAndIcons),
+                        modifier = Modifier.padding(end = 4.dp)
+                            .size(17.dp)
+                    )
                     Text(
                         text = "Total Balance",
-                        fontSize = 12.sp,
-                        color = Color.Black.copy(alpha = 0.8f),
+                        fontSize = 15.sp,
+                        color = LettersAndIcons,
                         fontWeight = FontWeight.Medium
                     )
                 }
@@ -231,85 +222,113 @@ private fun HomeHeader(
                     text = "$${String.format("%.2f", totalBalance)}",
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = if (totalBalance >= 0f) Color.White else BlueButton
                 )
             }
 
-            Divider(
-                modifier = Modifier
-                    .height(64.dp)
-                    .width(1.dp),
-                color = Color.White.copy(alpha = 0.3f)
+            VerticalDivider(
+                thickness = 1.dp,
+                color = BackgroundGreenWhiteAndLetters,
+                modifier = Modifier.height(60.dp)
             )
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = "TOTAL EXPENSE",
-                    fontSize = 12.sp,
-                    color = Color.Black.copy(alpha = 0.8f),
-                    fontWeight = FontWeight.Medium
-                )
+
+            Column(horizontalAlignment = Alignment.Start) {
+
+                Row (
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.expense),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(LettersAndIcons),
+                        modifier = Modifier.padding(end = 4.dp)
+                            .size(17.dp)
+                    )
+                    Text(
+                        text = "Total Expense",
+                        fontSize = 15.sp,
+                        color = LettersAndIcons,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "-$${String.format("%.2f", -totalExpense)}",
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
-                    color = BlueButton
+                    color = if (totalExpense >= 0f) Color.White else BlueButton
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         // Barra de Progreso
-        Column {
-            // Etiquetas
+        Column (
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
+){
+
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "$expensePercentage%",
-                    fontSize = 12.sp,
-                    color = Color.White
-                )
-                Text(
-                    text = "$${String.format("%.2f", expenseLimit)}",
-                    fontSize = 12.sp,
-                    color = Color.White
-                )
-            }
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            // Barra
-            LinearProgressIndicator(
-                progress = { expensePercentage / 100f },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(8.dp)
-                    .clip(RoundedCornerShape(50)),
-                color = Color.DarkGray,
-                trackColor = Color.White.copy(alpha = 0.3f),
-            )
+                    .padding(horizontal = 10.dp)
+                    .background(
+                        color = LettersAndIcons,
+                        shape = RoundedCornerShape(32.dp)
+                    ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "30%",
+                    color = LightGreen,
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(start = 20.dp)
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = LightGreen,
+                            shape = RoundedCornerShape(28.dp)
+                        )
+                        .padding(start = 155.dp , end = 10.dp , top = 1.dp, bottom = 1.dp),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Text(
+                        text = "$20,000.00",
+                        color = LettersAndIcons,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 13.sp,
+                    )
+                }
+
+
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             // Texto inferior
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(start = 7.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.CheckCircle,
+                Image(
+                    painter = painterResource(id = R.drawable.check),
                     contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(16.dp)
+                    colorFilter = ColorFilter.tint(LettersAndIcons),
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                        .size(15.dp)
                 )
                 Text(
                     text = "$expensePercentage% Of Your Expenses, Looks Good.",
-                    fontSize = 12.sp,
-                    color = Color.White.copy(alpha = 0.8f)
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = LettersAndIcons
                 )
             }
         }

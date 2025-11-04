@@ -19,7 +19,11 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.Transaction
 import com.example.parcialtp3.domain.model.TransactionIconType
 import com.example.parcialtp3.domain.model.TransactionType
+import com.example.parcialtp3.ui.theme.BackgroundGreenWhiteAndLetters
 import com.example.parcialtp3.ui.theme.BlueButton
+import com.example.parcialtp3.ui.theme.LettersAndIcons
+import com.example.parcialtp3.ui.theme.MainGreen
+import com.example.parcialtp3.ui.theme.OceanBlueButton
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
 /**
@@ -36,7 +40,7 @@ fun TransactionItem(
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = BackgroundGreenWhiteAndLetters
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
@@ -45,7 +49,7 @@ fun TransactionItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(3.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -80,10 +84,17 @@ fun TransactionItem(
                     Text(
                         text = "${transaction.time} - ${transaction.date}",
                         fontSize = 12.sp,
-                        color = Color.Gray
+                        fontWeight = FontWeight.Medium,
+                        color = OceanBlueButton
                     )
                 }
             }
+
+            VerticalDivider(
+                thickness = 2.dp,
+                color = MainGreen,
+                modifier = Modifier.height(35.dp)
+            )
 
             // Categoría
             Text(
@@ -91,6 +102,12 @@ fun TransactionItem(
                 fontSize = 14.sp,
                 color = Color.Gray,
                 modifier = Modifier.padding(horizontal = 8.dp)
+            )
+
+            VerticalDivider(
+                thickness = 2.dp,
+                color = MainGreen,
+                modifier = Modifier.height(35.dp)
             )
 
             // Monto
@@ -102,7 +119,7 @@ fun TransactionItem(
                 },
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                color = if (transaction.type == TransactionType.INCOME) Color.Black else Color(0xFF5A8DFF)
+                color = if (transaction.type == TransactionType.INCOME) LettersAndIcons else BlueButton
             )
         }
     }
