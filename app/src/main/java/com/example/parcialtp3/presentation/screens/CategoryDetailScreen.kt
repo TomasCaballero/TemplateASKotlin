@@ -259,7 +259,7 @@ private fun CategoryDetailHeader(
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Black
             )
-            NotificationButton(onClick = onNotificationClick)
+            NotificationButton(onNotificationClick = onNotificationClick)
         }
 
         // Balance Summary

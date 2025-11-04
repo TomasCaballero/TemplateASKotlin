@@ -73,7 +73,7 @@ fun SecurityScreen(
                 )
 
                 // Notification button
-                NotificationButton(onClick = onNotificationClick)
+                NotificationButton(onNotificationClick = onNotificationClick)
             }
         }
 

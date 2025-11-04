@@ -91,7 +91,7 @@ fun ProfileScreen(
                     )
 
                     // Notification button
-                    NotificationButton(onClick = onNotificationClick)
+                    NotificationButton(onNotificationClick = onNotificationClick)
                 }
             }
 

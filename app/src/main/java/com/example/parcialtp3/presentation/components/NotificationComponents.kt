@@ -41,36 +41,36 @@ import com.example.parcialtp3.ui.theme.ParcialTP3Theme
  * Botón de notificaciones reutilizable con badge
  * Diseño consistente para todas las pantallas
  */
-@Composable
-fun NotificationButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier) {
-        IconButton(
-            onClick = onClick,
-            modifier = Modifier
-                .size(48.dp)
-                .background(
-                    color = Color.White.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(50)
-                )
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.home_campana),
-                contentDescription = "Notifications",
-                colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier.size(24.dp)
-            )
-        }
-        // Badge de notificación (punto rojo)
-        Badge(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .offset(x = (-4).dp, y = 4.dp)
-        )
-    }
-}
+//@Composable
+//fun NotificationButton(
+//    onClick: () -> Unit,
+//    modifier: Modifier = Modifier
+//) {
+//    Box(modifier = modifier) {
+//        IconButton(
+//            onClick = onClick,
+//            modifier = Modifier
+//                .size(48.dp)
+//                .background(
+//                    color = Color.White.copy(alpha = 0.2f),
+//                    shape = RoundedCornerShape(50)
+//                )
+//        ) {
+//            Image(
+//                painter = painterResource(id = R.drawable.home_campana),
+//                contentDescription = "Notifications",
+//                colorFilter = ColorFilter.tint(Color.White),
+//                modifier = Modifier.size(24.dp)
+//            )
+//        }
+//        // Badge de notificación (punto rojo)
+//        Badge(
+//            modifier = Modifier
+//                .align(Alignment.TopEnd)
+//                .offset(x = (-4).dp, y = 4.dp)
+//        )
+//    }
+//}
 
 /**
  * Componente para mostrar un grupo de notificaciones

@@ -77,7 +77,7 @@ fun ChangePinScreen(
                     color = Color.Black
                 )
 
-                NotificationButton(onClick = onNotificationClick)
+                NotificationButton(onNotificationClick = onNotificationClick)
             }
         }
 

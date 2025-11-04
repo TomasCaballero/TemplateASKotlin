@@ -355,7 +355,7 @@ private fun AddExpenseHeader(
             fontWeight = FontWeight.SemiBold,
             color = Color.Black
         )
-        NotificationButton(onClick = onNotificationClick)
+        NotificationButton(onNotificationClick = onNotificationClick)
     }
 }
 

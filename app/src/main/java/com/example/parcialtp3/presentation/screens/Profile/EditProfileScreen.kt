@@ -86,7 +86,7 @@ fun EditProfileScreen(
                 )
 
                 // Notification button
-                NotificationButton(onClick = onNotificationClick)
+                NotificationButton(onNotificationClick = onNotificationClick)
             }
         }
 
