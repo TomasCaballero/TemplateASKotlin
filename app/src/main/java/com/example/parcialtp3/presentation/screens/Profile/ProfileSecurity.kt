@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.parcialtp3.R
+import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.ui.theme.*
 
 
@@ -72,21 +73,7 @@ fun SecurityScreen(
                 )
 
                 // Notification button
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(Color.White)
-                        .clickable(onClick = onNotificationClick),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.home_campana),
-                        contentDescription = "Notifications",
-                        tint = MainGreen,
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
+                NotificationButton(onClick = onNotificationClick)
             }
         }
 

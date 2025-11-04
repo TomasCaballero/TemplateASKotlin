@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.ui.theme.*
 import java.util.Locale
 
@@ -164,16 +164,9 @@ private fun TransactionHeader(
                 text = "Transaction",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.White
+                color = Color.Black
             )
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Notifications",
-                tint = Color.White,
-                modifier = Modifier
-                    .size(28.dp)
-                    .clickable { onNotificationClick() }
-            )
+            NotificationButton(onClick = onNotificationClick)
         }
 
         // Tarjeta blanca de Total Balance

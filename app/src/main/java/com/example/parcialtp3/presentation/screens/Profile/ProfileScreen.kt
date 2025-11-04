@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +23,7 @@ import androidx.compose.ui.zIndex
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.ui.theme.*
 
 @Composable
@@ -71,7 +74,7 @@ fun ProfileScreen(
                     // Back button
                     IconButton(onClick = onBackClick) {
                         Icon(
-                            painter = painterResource(id = R.drawable.navbar_home),
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
                             tint = Color.White,
                             modifier = Modifier.size(24.dp)
@@ -87,22 +90,8 @@ fun ProfileScreen(
                         color = LettersAndIcons
                     )
 
-                    // Notification button con círculo blanco
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .background(Color.White)
-                            .clickable(onClick = onNotificationClick),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.home_campana),
-                            contentDescription = "Notifications",
-                            tint = MainGreen,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
+                    // Notification button
+                    NotificationButton(onClick = onNotificationClick)
                 }
             }
 
