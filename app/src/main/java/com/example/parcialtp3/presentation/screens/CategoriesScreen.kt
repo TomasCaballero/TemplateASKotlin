@@ -2,6 +2,7 @@ package com.example.parcialtp3.presentation.screens
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
@@ -29,7 +31,9 @@ import androidx.core.view.WindowCompat
 import com.example.parcialtp3.R
 import com.example.parcialtp3.ui.theme.*
 import com.example.parcialtp3.domain.model.NavigationItem
+import com.example.parcialtp3.presentation.components.BalanceCard
 import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.ExpenseProgressBar
 import com.example.parcialtp3.presentation.components.NotificationButton
 
 data class Category(
@@ -256,134 +260,45 @@ private fun CategoriesHeader(
             NotificationButton(onNotificationClick = onNotificationClick)
         }
 
-        // Balance Summary - Lado a lado
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Total Balance
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.expense),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Total Balance",
-                        fontSize = 14.sp,
-                        color = Color.White.copy(alpha = 0.8f)
-                    )
-                }
-                Text(
-                    text = "$${String.format("%.2f", totalBalance)}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
+        // Balance y Gastos
+        BalanceCard(
+            totalBalance = totalBalance,
+            totalExpense = totalExpense
+        )
 
-            // Vertical Divider
-            Box(
-                modifier = Modifier
-                    .width(1.dp)
-                    .height(48.dp)
-                    .background(Color.White.copy(alpha = 0.3f))
-            )
+        Spacer(modifier = Modifier.height(15.dp))
 
-            // Total Expense
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.income),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Total Expense",
-                        fontSize = 14.sp,
-                        color = Color.White.copy(alpha = 0.8f)
-                    )
-                }
-                Text(
-                    text = "-$${String.format("%.2f", totalExpense)}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF6B6B),
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-        }
-
-        // Progress Bar
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "$expensePercentage%",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-                Text(
-                    text = "$${String.format("%.2f", maxBudget)}",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            LinearProgressIndicator(
-                progress = { expensePercentage / 100f },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp)
-                    .clip(RoundedCornerShape(50)),
-                color = Color(0xFF2F2F2F),
-                trackColor = Color.White.copy(alpha = 0.3f),
-            )
-        }
+        // Barra de Progreso
+        ExpenseProgressBar(
+            expensePercentage = expensePercentage,
+            expenseLimit = maxBudget
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Check Message
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.padding(start = 10.dp, top = 10.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.CheckCircle,
+            Image(
+                painter = painterResource(id = R.drawable.check),
                 contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(20.dp)
+                colorFilter = ColorFilter.tint(LettersAndIcons),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .size(15.dp)
             )
-            Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = "$expensePercentage% Of Your Expenses, Looks Good.",
                 fontSize = 14.sp,
-                color = Color.White.copy(alpha = 0.9f),
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                color = LettersAndIcons
             )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

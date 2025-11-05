@@ -228,7 +228,7 @@ fun ForgotPasswordScreen3(
                             }
                         },
                         modifier = Modifier
-                            .width(220.dp)
+                            .width(230.dp)
                             .height(48.dp)
                             .align(Alignment.CenterHorizontally),
                         colors = ButtonDefaults.buttonColors(
@@ -242,7 +242,7 @@ fun ForgotPasswordScreen3(
                     ) {
                         Text(
                             text = "Change Password",
-                            fontSize = 20.sp,
+                            fontSize = 16.sp,
                             color = LettersAndIcons,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.5.sp

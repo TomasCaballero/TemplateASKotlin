@@ -291,22 +291,23 @@ private fun TransactionHeader(
 
         // Check Message
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.padding(start = 10.dp, top = 10.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.CheckCircle,
+            Image(
+                painter = painterResource(id = R.drawable.check),
                 contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(20.dp)
+                colorFilter = ColorFilter.tint(LettersAndIcons),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .size(15.dp)
             )
-            Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = "30% Of Your Expenses, Looks Good.",
+                text = "$expensePercentage% Of Your Expenses, Looks Good.",
                 fontSize = 14.sp,
-                color = Color.White.copy(alpha = 0.9f),
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                color = LettersAndIcons
             )
         }
 

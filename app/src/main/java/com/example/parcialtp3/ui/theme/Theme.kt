@@ -17,11 +17,11 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = BackgroundDarkModeAndLetters,
     background = DarkModeGreenBlack,
     surface = BackgroundDarkModeAndLetters,
-    onPrimary = BackgroundGreenWhiteAndLetters,
+    onPrimary = LettersAndIcons,
     onSecondary = BackgroundGreenWhiteAndLetters,
     onTertiary = MainGreen,
     onBackground = BackgroundGreenWhiteAndLetters,
-    onSurface = BackgroundGreenWhiteAndLetters
+    onSurface = BackgroundGreenWhiteAndLetters,
 )
 
 private val LightColorScheme = lightColorScheme(

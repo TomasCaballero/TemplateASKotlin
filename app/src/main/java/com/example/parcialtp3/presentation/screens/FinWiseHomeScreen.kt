@@ -228,6 +228,27 @@ private fun HomeHeader(
             expensePercentage = expensePercentage,
             expenseLimit = expenseLimit
         )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(start = 10.dp, top = 10.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.check),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(LettersAndIcons),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .size(15.dp)
+            )
+            Text(
+                text = "$expensePercentage% Of Your Expenses, Looks Good.",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                color = LettersAndIcons
+            )
+        }
     }
 }
 
