@@ -24,9 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.example.parcialtp3.R
+import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.domain.model.Notification
 import com.example.parcialtp3.domain.model.NotificationGroup
 import com.example.parcialtp3.domain.model.NotificationType
+import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.presentation.components.NotificationGroupComponent
 import com.example.parcialtp3.ui.theme.*
 
@@ -36,7 +39,10 @@ import com.example.parcialtp3.ui.theme.*
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotificationScreen(onBackClick: () -> Unit = {}) {
+fun NotificationScreen(
+    onBackClick: () -> Unit = {},
+    onNavigationItemSelected: (NavigationItem) -> Unit = {},
+) {
     // Configurar color de status bar
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -50,7 +56,13 @@ fun NotificationScreen(onBackClick: () -> Unit = {}) {
     val notificationGroups = getExampleNotifications()
 
     Scaffold(
-        containerColor = LightGreen,
+        containerColor = BackgroundGreenWhiteAndLetters,
+        bottomBar = {
+            BottomNavBar(
+                selectedItem = NavigationItem.NONE,
+                onItemSelected = onNavigationItemSelected
+            )
+        }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -66,7 +78,7 @@ fun NotificationScreen(onBackClick: () -> Unit = {}) {
                         onBackClick = onBackClick,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 40.dp)
+                            .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 20.dp)
                     )
                 }
 
@@ -75,7 +87,7 @@ fun NotificationScreen(onBackClick: () -> Unit = {}) {
                         modifier = Modifier
                             .fillParentMaxWidth()
                             .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-                            .background(LightGreen)
+                            .background(BackgroundGreenWhiteAndLetters)
                             .padding(24.dp)
                     ) {
                         notificationGroups.forEach { group ->
@@ -110,7 +122,7 @@ private fun NotificationHeader(
             modifier = Modifier.size(40.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.profile_logout), // TODO: Usar un icono de flecha a la izquierda
+                painter = painterResource(id = R.drawable.bring_back), // TODO: Usar un icono de flecha a la izquierda
                 contentDescription = "Back",
                 colorFilter = ColorFilter.tint(Color.White),
                 modifier = Modifier.size(24.dp)
@@ -120,23 +132,12 @@ private fun NotificationHeader(
         // Título
         Text(
             text = "Notification",
-            fontSize = 20.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color.White
+            color = LettersAndIcons
         )
 
-        // Icono de notificación (estático)
-        IconButton(
-            onClick = { /* No hace nada, es decorativo */ },
-            modifier = Modifier.size(40.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.home_campana),
-                contentDescription = "Notifications",
-                colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier.size(28.dp)
-            )
-        }
+        NotificationButton({})
     }
 }
 

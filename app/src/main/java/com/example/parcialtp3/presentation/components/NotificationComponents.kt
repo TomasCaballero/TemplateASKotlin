@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
@@ -33,8 +34,10 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.Notification
 import com.example.parcialtp3.domain.model.NotificationGroup
 import com.example.parcialtp3.domain.model.NotificationType
+import com.example.parcialtp3.ui.theme.BackgroundGreenWhiteAndLetters
 import com.example.parcialtp3.ui.theme.MainGreen
 import com.example.parcialtp3.ui.theme.BlueButton
+import com.example.parcialtp3.ui.theme.LettersAndIcons
 import com.example.parcialtp3.ui.theme.ParcialTP3Theme
 
 /**
@@ -86,7 +89,7 @@ fun NotificationGroupComponent(
             text = group.period,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color.Gray,
+            color = LettersAndIcons,
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
@@ -128,14 +131,14 @@ fun NotificationItem(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .clip(CircleShape)
+                .clip(RoundedCornerShape(15.dp))
                 .background(MainGreen),
             contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = getNotificationIcon(notification.type)),
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(Color.White),
+                colorFilter = ColorFilter.tint(LettersAndIcons),
                 modifier = Modifier.size(24.dp)
             )
         }
@@ -143,40 +146,52 @@ fun NotificationItem(
         // Contenido de la notificación
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(1.dp)
         ) {
             Text(
                 text = notification.title,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
+                fontWeight = FontWeight.SemiBold,
+                color = LettersAndIcons
             )
             Text(
                 text = notification.description,
-                fontSize = 14.sp,
-                color = Color.Gray,
-                lineHeight = 18.sp
+                fontSize = 12.sp,
+                color = LettersAndIcons,
+                lineHeight = 18.sp,
+                maxLines = 2
             )
 
             // Información adicional para transacciones
             notification.additionalInfo?.let { info ->
                 Text(
                     text = info,
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.DarkGray
+                    color = BlueButton
                 )
             }
         }
+
 
         // Timestamp
         Text(
             text = notification.timestamp,
             fontSize = 12.sp,
             color = BlueButton,
-            modifier = Modifier.padding(top = 2.dp)
+            modifier = Modifier.padding(top = 70.dp)
         )
+
+
+
+
     }
+
+    HorizontalDivider(
+        thickness = 2.dp,
+        color = MainGreen,
+        modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
+    )
 }
 
 /**

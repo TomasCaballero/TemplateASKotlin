@@ -8,5 +8,6 @@ enum class NavigationItem {
     STATS,
     TRANSFER,
     WALLET,
-    PROFILE
+    PROFILE,
+    NONE
 }
