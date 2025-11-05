@@ -55,6 +55,9 @@ fun FinWiseHomeScreen(
 
     // Configurar color de status bar
     val view = LocalView.current
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val surfaceColor = MaterialTheme.colorScheme.surface
+
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
@@ -64,7 +67,7 @@ fun FinWiseHomeScreen(
     }
 
     Scaffold(
-        containerColor = BackgroundGreenWhiteAndLetters,
+        containerColor = surfaceColor,
         bottomBar = {
             BottomNavBar(
                 selectedItem = NavigationItem.HOME,
@@ -76,7 +79,7 @@ fun FinWiseHomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(MainGreen)
+                .background(MaterialTheme.colorScheme.primary)
         ) {
             // Contenido desplazable
             LazyColumn(
@@ -99,7 +102,7 @@ fun FinWiseHomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp))
-                            .background(BackgroundGreenWhiteAndLetters)
+                            .background(MaterialTheme.colorScheme.surface)
                     ) {
                         Spacer(modifier = Modifier.height(20.dp))
 
@@ -131,7 +134,7 @@ fun FinWiseHomeScreen(
                     TransactionItem(
                         transaction = transaction,
                         modifier = Modifier
-                            .background(BackgroundGreenWhiteAndLetters)
+                            .background(MaterialTheme.colorScheme.surface)
                             .padding(horizontal = 24.dp, vertical = 10.dp)
                     )
                 }
@@ -142,7 +145,7 @@ fun FinWiseHomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(24.dp)
-                            .background(BackgroundGreenWhiteAndLetters)
+                            .background(MaterialTheme.colorScheme.surface)
                     )
                 }
             }
@@ -179,12 +182,12 @@ private fun HomeHeader(
                     text = "Hi, Welcome Back",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Text(
                     text = "Good Morning",
                     fontSize = 14.sp,
-                    color = Color.Black.copy(alpha = 0.8f)
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
                 )
             }
 

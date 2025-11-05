@@ -12,9 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = MainGreen,
+    secondary = MainGreen,
+    tertiary = BackgroundDarkModeAndLetters,
+    background = DarkModeGreenBlack,
+    surface = BackgroundDarkModeAndLetters,
+    onPrimary = BackgroundGreenWhiteAndLetters,
+    onSecondary = BackgroundGreenWhiteAndLetters,
+    onTertiary = MainGreen,
+    onBackground = BackgroundGreenWhiteAndLetters,
+    onSurface = BackgroundGreenWhiteAndLetters
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -27,7 +34,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun ParcialTP3Theme(
-    darkTheme: Boolean = false,  // Forzar tema claro para FinWise
+    darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,  // Desactivar colores dinámicos para usar colores de FinWise
     content: @Composable () -> Unit

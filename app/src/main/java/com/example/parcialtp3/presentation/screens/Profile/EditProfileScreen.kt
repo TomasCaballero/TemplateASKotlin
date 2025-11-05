@@ -22,8 +22,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.parcialtp3.R
 import com.example.parcialtp3.presentation.components.NotificationButton
+import com.example.parcialtp3.presentation.viewmodels.ThemeViewModel
 import com.example.parcialtp3.ui.theme.*
 
 @Composable
@@ -35,26 +37,27 @@ fun EditProfileScreen(
     onBackClick: () -> Unit = {},
     onNotificationClick: () -> Unit = {},
     onCameraClick: () -> Unit = {},
-    onUpdateProfile: (String, String, String, Boolean, Boolean) -> Unit = { _, _, _, _, _ -> }
+    onUpdateProfile: (String, String, String, Boolean, Boolean) -> Unit = { _, _, _, _, _ -> },
+    themeViewModel: ThemeViewModel = hiltViewModel()
 ) {
     // Estados para los campos
     var username by remember { mutableStateOf(userName) }
     var phone by remember { mutableStateOf(userPhone) }
     var email by remember { mutableStateOf(userEmail) }
     var pushNotifications by remember { mutableStateOf(true) }
-    var darkTheme by remember { mutableStateOf(false) }
+    val darkTheme by themeViewModel.isDarkTheme.collectAsState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(LightGreen)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         // 1. FONDO VERDE (Header)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(280.dp)
-                .background(MainGreen)
+                .background(MaterialTheme.colorScheme.primary)
                 .zIndex(1f)
         ) {
             // Top Navigation Bar
@@ -82,7 +85,7 @@ fun EditProfileScreen(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = PoppinsFontFamily,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
 
                 // Notification button
@@ -101,7 +104,7 @@ fun EditProfileScreen(
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp),
-                color = LightGreen,
+                color = MaterialTheme.colorScheme.surface,
                 shadowElevation = 0.dp
             ) {
                 Column(
@@ -118,7 +121,7 @@ fun EditProfileScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         fontFamily = PoppinsFontFamily,
-                        color = Color.Black,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(bottom = 10.dp)
                     )
 
@@ -164,7 +167,7 @@ fun EditProfileScreen(
                     EditProfileToggle(
                         label = "Turn Dark Theme",
                         checked = darkTheme,
-                        onCheckedChange = { darkTheme = it }
+                        onCheckedChange = { themeViewModel.toggleTheme(it) }
                     )
 
                     Spacer(modifier = Modifier.height(18.dp))
@@ -247,7 +250,7 @@ fun EditProfileScreen(
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = PoppinsFontFamily,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(2.dp))
@@ -258,7 +261,7 @@ fun EditProfileScreen(
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = PoppinsFontFamily,
-                    color = Color.DarkGray
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
             }
         }
@@ -331,7 +334,7 @@ fun EditProfileToggle(
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             fontFamily = PoppinsFontFamily,
-            color = Color.Black
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Switch(
