@@ -10,6 +10,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -39,6 +44,7 @@ fun ProfileScreen(
     onHelpClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {}
 ) {
+    var showLogoutDialog by remember { mutableStateOf(false) }
     Scaffold(
         containerColor = LightGreen,
         bottomBar = {
@@ -146,7 +152,7 @@ fun ProfileScreen(
                             onSecurityClick = onSecurityClick,
                             onSettingClick = onSettingClick,
                             onHelpClick = onHelpClick,
-                            onLogoutClick = onLogoutClick
+                            onLogoutClick = { showLogoutDialog = true }
                         )
                     }
                 }
@@ -169,6 +175,17 @@ fun ProfileScreen(
                     contentScale = ContentScale.Crop
                 )
             }
+        }
+
+        // Diálogo de confirmación de logout
+        if (showLogoutDialog) {
+            LogoutConfirmationDialog(
+                onDismiss = { showLogoutDialog = false },
+                onConfirm = {
+                    showLogoutDialog = false
+                    onLogoutClick()
+                }
+            )
         }
     }
 }
@@ -251,5 +268,115 @@ fun ProfileMenuItem(
             fontFamily = PoppinsFontFamily,
             color = Color.Black
         )
+    }
+}
+
+@Composable
+fun LogoutConfirmationDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    // Colores personalizados del diseño HTML
+    val emeraldColor = Color(0xFF0D9488)
+    val mintLightColor = Color(0xFFE6FFE6)
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.7f))
+            .clickable(
+                onClick = onDismiss,
+                indication = null,
+                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        // Tarjeta blanca del diálogo
+        Surface(
+            modifier = Modifier
+                .padding(horizontal = 32.dp)
+                .fillMaxWidth()
+                .clickable(
+                    onClick = {},
+                    indication = null,
+                    interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+                ),
+            shape = RoundedCornerShape(32.dp),
+            color = Color.White,
+            shadowElevation = 24.dp
+        ) {
+            Column(
+                modifier = Modifier.padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Título "End Session"
+                Text(
+                    text = "End Session",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = PoppinsFontFamily,
+                    color = emeraldColor
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Pregunta
+                Text(
+                    text = "Are you sure you want to log out?",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = PoppinsFontFamily,
+                    color = Color(0xFF374151),
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Botón "Yes, End Session"
+                Button(
+                    onClick = onConfirm,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = emeraldColor
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 4.dp
+                    )
+                ) {
+                    Text(
+                        text = "Yes, End Session",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = PoppinsFontFamily,
+                        color = Color.White
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Botón "Cancel"
+                Button(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = mintLightColor
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = "Cancel",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = PoppinsFontFamily,
+                        color = emeraldColor
+                    )
+                }
+            }
+        }
     }
 }
