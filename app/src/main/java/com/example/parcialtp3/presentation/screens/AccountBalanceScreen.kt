@@ -1,10 +1,12 @@
 package com.example.parcialtp3.presentation.screens
 
 import android.app.Activity
+import android.health.connect.datatypes.units.Percentage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -30,10 +32,17 @@ import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
+import com.example.parcialtp3.presentation.components.BalanceCard
 import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.ExpenseProgressBar
 import com.example.parcialtp3.presentation.components.NotificationButton
+import com.example.parcialtp3.presentation.components.TransactionItem
 import com.example.parcialtp3.ui.theme.*
+import com.example.parcialtp3.domain.model.Transaction
+import com.example.parcialtp3.domain.model.TransactionIconType
+import com.example.parcialtp3.domain.model.TransactionType
 import java.util.Locale
+import kotlin.math.abs
 
 @Composable
 fun AccountBalanceScreen(
@@ -42,13 +51,14 @@ fun AccountBalanceScreen(
     income: Double = 4000.0,
     expense: Double = -1187.40,
     maxBudget: Double = 20000.00,
+    expensePercentage: Int = 30,
     onBackClick: () -> Unit = {},
     onNotificationClick: () -> Unit = {},
     onNavigationItemSelected: (NavigationItem) -> Unit = {},
     onSeeAllClick: () -> Unit = {},
     transactions: List<Transaction> = getSampleTransactions()
 ) {
-    val usagePercentage = ((kotlin.math.abs(totalExpense) / maxBudget) * 100).toInt()
+    val usagePercentage = ((abs(totalExpense) / maxBudget) * 100).toInt()
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -86,7 +96,8 @@ fun AccountBalanceScreen(
                         income = income,
                         expense = expense,
                         onBackClick = onBackClick,
-                        onNotificationClick = onNotificationClick
+                        onNotificationClick = onNotificationClick,
+                        expensePercentage = expensePercentage
                     )
                 }
 
@@ -95,7 +106,7 @@ fun AccountBalanceScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                            .background(LightGreen)
+                            .background(BackgroundGreenWhiteAndLetters)
                             .padding(horizontal = 24.dp)
                     ) {
                         Spacer(modifier = Modifier.height(24.dp))
@@ -104,12 +115,12 @@ fun AccountBalanceScreen(
                     }
                 }
 
-                items(transactions) { transaction ->
+                items(items = transactions, key = { it.id }) { transaction ->
                     TransactionItem(
                         transaction = transaction,
                         modifier = Modifier
-                            .background(LightGreen)
-                            .padding(horizontal = 24.dp)
+                            .background(BackgroundGreenWhiteAndLetters)
+                            .padding(horizontal = 24.dp, vertical = 10.dp)
                     )
                 }
 
@@ -118,7 +129,7 @@ fun AccountBalanceScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(24.dp)
-                            .background(LightGreen)
+                            .background(BackgroundGreenWhiteAndLetters)
                     )
                 }
             }
@@ -134,13 +145,16 @@ private fun AccountBalanceHeader(
     maxBudget: Double,
     income: Double,
     expense: Double,
+    expensePercentage: Int,
     onBackClick: () -> Unit,
     onNotificationClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(24.dp)
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Navigation Header
         Row(
@@ -167,111 +181,18 @@ private fun AccountBalanceHeader(
             NotificationButton(onNotificationClick = onNotificationClick)
         }
 
-        // Balance Summary - Lado a lado
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Total Balance
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_income),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Total Balance",
-                        fontSize = 14.sp,
-                        color = Color.Black.copy(alpha = 0.8f)
-                    )
-                }
-                Text(
-                    text = "$${String.format(Locale.US, "%.2f", totalBalance)}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-
-            // Vertical Divider
-            Box(
-                modifier = Modifier
-                    .width(1.dp)
-                    .height(48.dp)
-                    .background(Color.White.copy(alpha = 0.3f))
-            )
-
-            // Total Expense
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.home_expense),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Total Expense",
-                        fontSize = 14.sp,
-                        color = Color.Black.copy(alpha = 0.8f)
-                    )
-                }
-                Text(
-                    text = "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(totalExpense))}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF6B6B),
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-        }
+        // Balance Summary
+        BalanceCard(
+            totalBalance = totalBalance,
+            totalExpense = totalExpense,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
         // Progress Bar
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "$usagePercentage%",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-                Text(
-                    text = "$${String.format(Locale.US, "%.2f", maxBudget)}",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            LinearProgressIndicator(
-                progress = { usagePercentage / 100f },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp)
-                    .clip(RoundedCornerShape(50)),
-                color = Color(0xFF2F2F2F),
-                trackColor = Color.White.copy(alpha = 0.3f),
-            )
-        }
+        ExpenseProgressBar(
+            expensePercentage = expensePercentage,
+            expenseLimit = maxBudget
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -285,37 +206,36 @@ private fun AccountBalanceHeader(
                 amount = income,
                 icon = R.drawable.home_income,
                 iconTint = MainGreen,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                type = TransactionType.INCOME
             )
             InfoCardGreen(
                 label = "Expense",
                 amount = expense,
                 icon = R.drawable.home_expense,
-                iconTint = Color(0xFFFF6B6B),
-                modifier = Modifier.weight(1f)
+                iconTint = BlueButton,
+                modifier = Modifier.weight(1f),
+                type = TransactionType.EXPENSE
             )
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Check Message
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.padding(start = 10.dp, top = 10.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.CheckCircle,
+            Image(
+                painter = painterResource(id = R.drawable.check),
                 contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(20.dp)
+                colorFilter = ColorFilter.tint(LettersAndIcons),
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .size(15.dp)
             )
-            Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = "$usagePercentage% Of Your Expenses, Looks Good.",
+                text = "$expensePercentage% Of Your Expenses, Looks Good.",
                 fontSize = 14.sp,
-                color = Color.White.copy(alpha = 0.9f),
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                color = LettersAndIcons
             )
         }
     }
@@ -325,6 +245,7 @@ private fun AccountBalanceHeader(
 private fun InfoCardGreen(
     label: String,
     amount: Double,
+    type: TransactionType,
     icon: Int,
     iconTint: Color,
     modifier: Modifier = Modifier
@@ -334,16 +255,16 @@ private fun InfoCardGreen(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = BackgroundGreenWhiteAndLetters)
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        Column(
+            modifier = Modifier.fillMaxWidth().
+                    padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(LightGreen),
+                    .clip(RoundedCornerShape(12.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -353,27 +274,26 @@ private fun InfoCardGreen(
                     modifier = Modifier.size(24.dp)
                 )
             }
-            Column {
-                Text(
+            Text(
                     text = label,
                     fontSize = 14.sp,
-                    color = Color.Gray,
+                    color = LettersAndIcons,
                     fontWeight = FontWeight.Medium
                 )
-                Text(
+            Text(
                     text = if (amount >= 0) {
                         "$${String.format(Locale.US, "%.2f", amount)}"
                     } else {
-                        "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(amount))}"
+                        "-$${String.format(Locale.US, "%.2f", abs(amount))}"
                     },
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LettersAndIcons
+                    color = if ( type.equals(TransactionType.INCOME)) LettersAndIcons else BlueButton
                 )
             }
         }
     }
-}
+
 
 @Composable
 private fun TransactionsHeader(onSeeAllClick: () -> Unit) {
@@ -398,91 +318,48 @@ private fun TransactionsHeader(onSeeAllClick: () -> Unit) {
     }
 }
 
-@Composable
-fun TransactionItem(transaction: Transaction, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Icono circular azul
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(BlueButton),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = transaction.iconRes),
-                contentDescription = transaction.title,
-                colorFilter = ColorFilter.tint(Color.White),
-                modifier = Modifier.size(24.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // Información de la transacción
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = transaction.title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF1F1F1F)
-            )
-            Text(
-                text = transaction.dateTime,
-                fontSize = 12.sp,
-                color = Color.Gray
-            )
-        }
-
-        // Categoría
-        Text(
-            text = transaction.category,
-            fontSize = 14.sp,
-            color = Color(0xFF666666)
-        )
-
-        // Divisor vertical
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .width(1.dp)
-                .height(24.dp)
-                .background(Color(0xFFD1D1D1))
-        )
-
-        // Monto
-        Text(
-            text = if (transaction.amount >= 0) {
-                "$${String.format(Locale.US, "%.2f", transaction.amount)}"
-            } else {
-                "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(transaction.amount))}"
-            },
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (transaction.amount >= 0) Color(0xFF1F1F1F) else Color(0xFFFF6B6B)
-        )
-    }
-}
-
-data class Transaction(
-    val title: String,
-    val dateTime: String,
-    val amount: Double,
-    val category: String,
-    val iconRes: Int
-)
-
 fun getSampleTransactions(): List<Transaction> {
     return listOf(
-        Transaction("Salary", "18:27 - April 30", 4000.00, "Monthly", R.drawable.home_salary),
-        Transaction("Groceries", "17:00 - April 24", -100.00, "Pantry", R.drawable.cat_groceries),
-        Transaction("Rent", "8:30 - April 15", -674.40, "Rent", R.drawable.cat_rent),
-        Transaction("Transport", "9:30 - April 08", -4.13, "Fuel", R.drawable.cat_transport)
+        Transaction(
+            id = 1,
+            title = "Salary",
+            time = "18:27",
+            date = "April 30",
+            amount = 4000.00,
+            category = "Monthly",
+            type = TransactionType.INCOME,
+            iconType = TransactionIconType.SALARY
+        ),
+        Transaction(
+            id = 2,
+            title = "Groceries",
+            time = "17:00",
+            date = "April 24",
+            amount = -100.00,
+            category = "Pantry",
+            type = TransactionType.EXPENSE,
+            iconType = TransactionIconType.GROCERIES
+        ),
+        Transaction(
+            id = 3,
+            title = "Rent",
+            time = "8:30",
+            date = "April 15",
+            amount = -674.40,
+            category = "Rent",
+            type = TransactionType.EXPENSE,
+            iconType = TransactionIconType.RENT
+        ),
+        Transaction(
+            id = 4,
+            title = "Transport",
+            time = "9:30",
+            date = "April 08",
+            amount = -4.13,
+            category = "Fuel",
+            type = TransactionType.EXPENSE,
+            iconType = TransactionIconType.TRANSPORT
+        )
     )
 }
 

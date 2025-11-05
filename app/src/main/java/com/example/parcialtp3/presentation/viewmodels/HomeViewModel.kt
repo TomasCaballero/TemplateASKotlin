@@ -63,7 +63,27 @@ class HomeViewModel : ViewModel() {
                 time = "8:30",
                 type = TransactionType.EXPENSE,
                 iconType = TransactionIconType.RENT
-            )
+            ),
+            Transaction(
+                id = 4,
+                title = "Groceries",
+                category = "Pantry",
+                amount = -100.00,
+                date = "April 24",
+                time = "17:00",
+                type = TransactionType.EXPENSE,
+                iconType = TransactionIconType.GROCERIES
+            ),
+            Transaction(
+                id = 5,
+                title = "Groceries",
+                category = "Pantry",
+                amount = -100.00,
+                date = "April 24",
+                time = "17:00",
+                type = TransactionType.EXPENSE,
+                iconType = TransactionIconType.GROCERIES
+            ),
         )
 
         _uiState.value = _uiState.value.copy(

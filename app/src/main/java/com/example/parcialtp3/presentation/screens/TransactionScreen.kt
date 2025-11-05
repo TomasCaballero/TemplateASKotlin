@@ -25,6 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
+import com.example.parcialtp3.domain.model.Transaction
+import com.example.parcialtp3.domain.model.TransactionIconType
+import com.example.parcialtp3.domain.model.TransactionType
 import com.example.parcialtp3.presentation.components.BottomNavBar
 import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.ui.theme.*
@@ -351,7 +354,7 @@ fun TransactionItemScreen(transaction: Transaction, modifier: Modifier = Modifie
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(id = transaction.iconRes),
+                painter = painterResource(id = getIconForTransaction(transaction.iconType)),
                 contentDescription = transaction.title,
                 tint = Color.White,
                 modifier = Modifier.size(24.dp)
@@ -369,7 +372,7 @@ fun TransactionItemScreen(transaction: Transaction, modifier: Modifier = Modifie
                 color = Color(0xFF1F1F1F)
             )
             Text(
-                text = transaction.dateTime,
+                text = "${transaction.time} - ${transaction.date}",
                 fontSize = 12.sp,
                 color = Color.Gray
             )
@@ -405,6 +408,22 @@ fun TransactionItemScreen(transaction: Transaction, modifier: Modifier = Modifie
     }
 }
 
+// Helper function to get icon resource from TransactionIconType
+private fun getIconForTransaction(iconType: TransactionIconType): Int {
+    return when (iconType) {
+        TransactionIconType.SALARY -> R.drawable.home_salary
+        TransactionIconType.GROCERIES -> R.drawable.cat_groceries
+        TransactionIconType.RENT -> R.drawable.cat_rent
+        TransactionIconType.TRANSFER -> R.drawable.cat_savings
+        TransactionIconType.ENTERTAINMENT -> R.drawable.cat_entretenimiento
+        TransactionIconType.BILLS -> R.drawable.cat_medicine
+        TransactionIconType.SHOPPING -> R.drawable.cat_gifts
+        TransactionIconType.FOOD -> R.drawable.cat_food
+        TransactionIconType.TRANSPORT -> R.drawable.cat_transport
+        TransactionIconType.OTHER -> R.drawable.cat_more
+    }
+}
+
 // Data class para transacciones agrupadas por mes
 data class TransactionGroup(
     val month: String,
@@ -416,41 +435,56 @@ fun getSampleTransactionsByMonth(): Map<String, List<Transaction>> {
     return mapOf(
         "April" to listOf(
             Transaction(
+                id = 1,
                 title = "Salary",
-                dateTime = "18:27 - April 30",
+                time = "18:27",
+                date = "April 30",
                 amount = 4000.00,
                 category = "Monthly",
-                iconRes = R.drawable.home_salary
+                type = TransactionType.INCOME,
+                iconType = TransactionIconType.SALARY
             ),
             Transaction(
+                id = 2,
                 title = "Groceries",
-                dateTime = "17:00 - April 24",
+                time = "17:00",
+                date = "April 24",
                 amount = -100.00,
                 category = "Pantry",
-                iconRes = R.drawable.cat_groceries
+                type = TransactionType.EXPENSE,
+                iconType = TransactionIconType.GROCERIES
             ),
             Transaction(
+                id = 3,
                 title = "Rent",
-                dateTime = "8:30 - April 15",
+                time = "8:30",
+                date = "April 15",
                 amount = -674.40,
                 category = "Rent",
-                iconRes = R.drawable.cat_rent
+                type = TransactionType.EXPENSE,
+                iconType = TransactionIconType.RENT
             ),
             Transaction(
+                id = 4,
                 title = "Transport",
-                dateTime = "7:30 - April 08",
+                time = "7:30",
+                date = "April 08",
                 amount = -4.13,
                 category = "Fuel",
-                iconRes = R.drawable.cat_transport
+                type = TransactionType.EXPENSE,
+                iconType = TransactionIconType.TRANSPORT
             )
         ),
         "March" to listOf(
             Transaction(
+                id = 5,
                 title = "Food",
-                dateTime = "19:30 - March 31",
+                time = "19:30",
+                date = "March 31",
                 amount = -70.40,
                 category = "Dinner",
-                iconRes = R.drawable.cat_food
+                type = TransactionType.EXPENSE,
+                iconType = TransactionIconType.FOOD
             )
         )
     )
