@@ -13,6 +13,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,16 +22,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.domain.model.Transaction
 import com.example.parcialtp3.domain.model.TransactionIconType
 import com.example.parcialtp3.domain.model.TransactionType
+import com.example.parcialtp3.presentation.components.BalanceCard
 import com.example.parcialtp3.presentation.components.BottomNavBar
+import com.example.parcialtp3.presentation.components.ExpenseProgressBar
 import com.example.parcialtp3.presentation.components.NotificationButton
+import com.example.parcialtp3.presentation.components.TransactionItem
+import com.example.parcialtp3.presentation.viewmodels.TransactionUiState
+import com.example.parcialtp3.presentation.viewmodels.TransactionViewModel
 import com.example.parcialtp3.ui.theme.*
 import java.util.Locale
 
@@ -39,15 +48,13 @@ import java.util.Locale
  */
 @Composable
 fun TransactionScreen(
-    totalBalance: Double = 7783.00,
-    totalExpense: Double = -1187.40,
-    maxBudget: Double = 20000.00,
     onBackClick: () -> Unit = {},
     onNotificationClick: () -> Unit = {},
     onNavigationItemSelected: (NavigationItem) -> Unit = {},
-    transactionsByMonth: Map<String, List<Transaction>> = getSampleTransactionsByMonth()
+    viewModel: TransactionViewModel = hiltViewModel()
 ) {
-    val usagePercentage = ((kotlin.math.abs(totalExpense) / maxBudget) * 100).toInt()
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(
         containerColor = BackgroundGreenWhiteAndLetters,
         bottomBar = {
@@ -63,72 +70,132 @@ fun TransactionScreen(
                 .padding(paddingValues)
                 .background(MainGreen)
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                item {
-                    TransactionHeader(
-                        totalBalance = totalBalance,
-                        totalExpense = totalExpense,
-                        usagePercentage = usagePercentage,
-                        maxBudget = maxBudget,
+            when (val state = uiState) {
+                is TransactionUiState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = Color.White)
+                    }
+                }
+                is TransactionUiState.Success -> {
+                    TransactionContent(
+                        totalBalance = state.totalBalance,
+                        totalExpense = state.totalExpense,
+                        transactionsByMonth = state.transactionsByMonth,
                         onBackClick = onBackClick,
                         onNotificationClick = onNotificationClick
                     )
                 }
-
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
-                            .background(LightGreen)
-                            .padding(horizontal = 24.dp)
+                is TransactionUiState.Error -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Spacer(modifier = Modifier.height(24.dp))
-                    }
-                }
-
-                transactionsByMonth.forEach { (month, transactions) ->
-                    item {
-                        // Month Header
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(LightGreen)
-                                .padding(horizontal = 24.dp)
-                                .padding(bottom = 16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = month,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF1F1F1F)
+                                text = state.message,
+                                color = Color.White,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(16.dp)
                             )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(
+                                onClick = { viewModel.retry() },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = BlueButton
+                                )
+                            ) {
+                                Text("Retry")
+                            }
                         }
                     }
-
-                    items(transactions) { transaction ->
-                        TransactionItemScreen(
-                            transaction = transaction,
-                            modifier = Modifier
-                                .background(LightGreen)
-                                .padding(horizontal = 24.dp)
-                        )
-                    }
                 }
+            }
+        }
+    }
+}
 
-                item {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(24.dp)
-                            .background(LightGreen)
+@Composable
+private fun TransactionContent(
+    totalBalance: Double,
+    totalExpense: Double,
+    transactionsByMonth: Map<String, List<Transaction>>,
+    onBackClick: () -> Unit,
+    onNotificationClick: () -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        item {
+            TransactionHeader(
+                totalBalance = totalBalance,
+                totalExpense = totalExpense,
+                onBackClick = onBackClick,
+                onNotificationClick = onNotificationClick,
+                expenseLimit = 20000.00,
+                expensePercentage = 30
+            )
+        }
+
+        item {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp))
+                    .background(BackgroundGreenWhiteAndLetters)
+                    .padding(horizontal = 24.dp)
+            ) {
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+
+        transactionsByMonth.forEach { (month, transactions) ->
+            item {
+                // Mes
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(BackgroundGreenWhiteAndLetters)
+                        .padding(horizontal = 24.dp)
+                        .padding(bottom = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = month,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1F1F1F)
                     )
                 }
             }
+
+            // Lista de transacciones (continúa el fondo blanco)
+            items(
+                items = transactions,
+                key = { it.id }
+            ) { transaction ->
+                TransactionItem(
+                    transaction = transaction,
+                    modifier = Modifier
+                        .background(BackgroundGreenWhiteAndLetters)
+                        .padding(horizontal = 24.dp, vertical = 10.dp)
+                )
+            }
+        }
+
+        item {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(24.dp)
+                    .background(BackgroundGreenWhiteAndLetters )
+            )
         }
     }
 }
@@ -137,8 +204,8 @@ fun TransactionScreen(
 private fun TransactionHeader(
     totalBalance: Double,
     totalExpense: Double,
-    usagePercentage: Int,
-    maxBudget: Double,
+    expensePercentage: Int,
+    expenseLimit: Double,
     onBackClick: () -> Unit,
     onNotificationClick: () -> Unit
 ) {
@@ -204,111 +271,21 @@ private fun TransactionHeader(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Balance Summary - Lado a lado
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Total Balance
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.home_income),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Total Balance",
-                        fontSize = 14.sp,
-                        color = Color.White.copy(alpha = 0.8f)
-                    )
-                }
-                Text(
-                    text = "$${String.format(Locale.US, "%.2f", totalBalance)}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
+        Spacer(modifier = Modifier.height(20.dp))
 
-            // Vertical Divider
-            Box(
-                modifier = Modifier
-                    .width(1.dp)
-                    .height(48.dp)
-                    .background(Color.White.copy(alpha = 0.3f))
-            )
+        // Balance y Gastos
+        BalanceCard(
+            totalBalance = totalBalance,
+            totalExpense = totalExpense
+        )
 
-            // Total Expense
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.home_expense),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "Total Expense",
-                        fontSize = 14.sp,
-                        color = Color.White.copy(alpha = 0.8f)
-                    )
-                }
-                Text(
-                    text = "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(totalExpense))}",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF6B6B),
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-        }
+        Spacer(modifier = Modifier.height(15.dp))
 
-        // Progress Bar
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "$usagePercentage%",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-                Text(
-                    text = "$${String.format(Locale.US, "%.2f", maxBudget)}",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            LinearProgressIndicator(
-                progress = { usagePercentage / 100f },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp)
-                    .clip(RoundedCornerShape(50)),
-                color = Color(0xFF2F2F2F),
-                trackColor = Color.White.copy(alpha = 0.3f),
-            )
-        }
+        // Barra de Progreso
+        ExpenseProgressBar(
+            expensePercentage = expensePercentage,
+            expenseLimit = expenseLimit
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -326,7 +303,7 @@ private fun TransactionHeader(
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
-                text = "$usagePercentage% Of Your Expenses, Looks Good.",
+                text = "30% Of Your Expenses, Looks Good.",
                 fontSize = 14.sp,
                 color = Color.White.copy(alpha = 0.9f),
                 fontWeight = FontWeight.Medium
@@ -334,77 +311,6 @@ private fun TransactionHeader(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-    }
-}
-
-@Composable
-fun TransactionItemScreen(transaction: Transaction, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Icono circular azul
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(BlueButton),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(id = getIconForTransaction(transaction.iconType)),
-                contentDescription = transaction.title,
-                tint = Color.White,
-                modifier = Modifier.size(24.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        // Información de la transacción
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = transaction.title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF1F1F1F)
-            )
-            Text(
-                text = "${transaction.time} - ${transaction.date}",
-                fontSize = 12.sp,
-                color = Color.Gray
-            )
-        }
-
-        // Categoría
-        Text(
-            text = transaction.category,
-            fontSize = 14.sp,
-            color = Color(0xFF666666)
-        )
-
-        // Divisor vertical
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .width(1.dp)
-                .height(24.dp)
-                .background(Color(0xFFD1D1D1))
-        )
-
-        // Monto
-        Text(
-            text = if (transaction.amount >= 0) {
-                "$${String.format(Locale.US, "%.2f", transaction.amount)}"
-            } else {
-                "-$${String.format(Locale.US, "%.2f", kotlin.math.abs(transaction.amount))}"
-            },
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (transaction.amount >= 0) Color(0xFF1F1F1F) else Color(0xFFFF6B6B)
-        )
     }
 }
 
