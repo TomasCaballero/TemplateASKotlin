@@ -36,13 +36,13 @@ import com.example.parcialtp3.presentation.components.BottomNavBar
 import com.example.parcialtp3.presentation.components.ExpenseProgressBar
 import com.example.parcialtp3.presentation.components.GoalsCard
 import com.example.parcialtp3.presentation.components.LoadingIndicator
-import com.example.parcialtp3.presentation.components.ErrorMessage
 import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.presentation.components.TransactionItem
 import com.example.parcialtp3.presentation.components.TransactionTabs
 import com.example.parcialtp3.presentation.viewmodels.HomeViewModel
 import com.example.parcialtp3.ui.theme.*
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.parcialtp3.presentation.components.ErrorMessage
 
 /**
  * Pantalla principal de FinWise (Home)

@@ -4,15 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import com.example.parcialtp3.data.local.AppDatabase
 import com.example.parcialtp3.data.local.TokenManager
-import com.example.parcialtp3.data.local.dao.ExampleDao
 import com.example.parcialtp3.data.local.dao.ExpenseDao
 import com.example.parcialtp3.data.remote.api.ApiService
 import com.example.parcialtp3.data.repository.AuthRepositoryImpl
-import com.example.parcialtp3.data.repository.ExampleRepositoryImpl
 import com.example.parcialtp3.data.repository.ExpenseRepositoryImpl
 import com.example.parcialtp3.data.repository.TransactionRepositoryImpl
 import com.example.parcialtp3.domain.repository.AuthRepository
-import com.example.parcialtp3.domain.repository.ExampleRepository
 import com.example.parcialtp3.domain.repository.ExpenseRepository
 import com.example.parcialtp3.domain.repository.TransactionRepository
 import com.google.firebase.Firebase
@@ -118,14 +115,6 @@ object AppModule {
             .build()
     }
 
-    /**
-     * Provides DAO from the database
-     */
-    @Provides
-    @Singleton
-    fun provideExampleDao(database: AppDatabase): ExampleDao {
-        return database.exampleDao()
-    }
 
     @Provides
     @Singleton
@@ -174,20 +163,6 @@ object AppModule {
         tokenManager: TokenManager
     ): AuthRepository {
         return AuthRepositoryImpl(apiService, tokenManager)
-    }
-
-    /**
-     * Provides Repository implementation
-     * Demonstrates how to inject multiple dependencies into a repository
-     */
-    @Provides
-    @Singleton
-    fun provideExampleRepository(
-        apiService: ApiService,
-        exampleDao: ExampleDao,
-        firestore: FirebaseFirestore
-    ): ExampleRepository {
-        return ExampleRepositoryImpl(apiService, exampleDao, firestore)
     }
 
     @Provides

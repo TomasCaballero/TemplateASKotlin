@@ -36,10 +36,6 @@ class LoginViewModel @Inject constructor(
     fun resetState() {
         _uiState.value = LoginUiState.Idle
     }
-
-    fun checkLoginStatus(): Boolean {
-        return authRepository.isLoggedIn()
-    }
 }
 sealed class LoginUiState {
     object Idle : LoginUiState()

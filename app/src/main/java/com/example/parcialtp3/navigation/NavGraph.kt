@@ -38,12 +38,6 @@ sealed class Screen(val route: String) {
     data object Successfully : Screen("successfully/{message}") {
         fun createRoute(message: String) = "successfully/$message"
     }
-
-    data object Home : Screen("home")
-    data object Create : Screen("create")
-    data object Detail : Screen("detail/{itemId}") {
-        fun createRoute(itemId: Long) = "detail/$itemId"
-    }
 }
 
 @Composable
@@ -517,45 +511,6 @@ fun NavGraph(
                 message = message,
                 onNavigateBack = {
                     navController.popBackStack(Screen.Security.route, false)
-                }
-            )
-        }
-
-        // Home Screen (Template original)
-        composable(route = Screen.Home.route) {
-            HomeScreen(
-                onNavigateToCreate = {
-                    navController.navigate(Screen.Create.route)
-                },
-                onNavigateToDetail = { itemId ->
-                    navController.navigate(Screen.Detail.createRoute(itemId))
-                }
-            )
-        }
-
-        // Create Screen
-        composable(route = Screen.Create.route) {
-            CreateScreen(
-                onNavigateBack = {
-                    navController.popBackStack()
-                }
-            )
-        }
-
-        // Detail Screen with argument
-        composable(
-            route = Screen.Detail.route,
-            arguments = listOf(
-                navArgument("itemId") {
-                    type = NavType.LongType
-                }
-            )
-        ) { backStackEntry ->
-            val itemId = backStackEntry.arguments?.getLong("itemId") ?: 0L
-            DetailScreen(
-                itemId = itemId,
-                onNavigateBack = {
-                    navController.popBackStack()
                 }
             )
         }

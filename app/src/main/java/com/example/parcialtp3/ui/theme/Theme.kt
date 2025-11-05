@@ -35,7 +35,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun ParcialTP3Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,  // Desactivar colores dinámicos para usar colores de FinWise
     content: @Composable () -> Unit
 ) {

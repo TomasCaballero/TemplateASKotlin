@@ -27,8 +27,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = ProfileUiState.Loading
 
-            // Use mock user ID - in a real app, this would come from saved login session
-            val userId = 1 // Mock user ID
+            val userId = 1
             val result = authRepository.getUser(userId)
 
             _uiState.value = if (result.isSuccess) {
@@ -42,10 +41,6 @@ class ProfileViewModel @Inject constructor(
                 ProfileUiState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
             }
         }
-    }
-
-    fun retryLoadProfile() {
-        loadUserProfile()
     }
 
     fun logout() {
