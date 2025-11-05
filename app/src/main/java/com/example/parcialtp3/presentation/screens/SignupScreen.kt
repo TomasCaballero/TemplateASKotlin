@@ -35,6 +35,10 @@ import com.example.parcialtp3.R
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.parcialtp3.presentation.viewmodels.SignupViewModel
+import com.example.parcialtp3.presentation.viewmodels.SignupUiState
+import androidx.compose.runtime.LaunchedEffect
 
 class SpacedPasswordTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
@@ -57,6 +61,7 @@ class SpacedPasswordTransformation : VisualTransformation {
 
 @Composable
 fun SignupScreen(
+    viewModel: SignupViewModel = hiltViewModel(),
     onSignUpSuccess: () -> Unit = {},
     onLoginClick: () -> Unit = {},
     onTermsClick: () -> Unit = {},
@@ -72,6 +77,25 @@ fun SignupScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+
+    val uiState by viewModel.uiState.collectAsState()
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    // Handle UI states
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            is SignupUiState.Success -> {
+                onSignUpSuccess()
+                viewModel.resetState()
+            }
+            is SignupUiState.Error -> {
+                errorMessage = (uiState as SignupUiState.Error).message
+            }
+            else -> {}
+        }
+    }
+
+    val isLoading = uiState is SignupUiState.Loading
 
     Box(
         modifier = Modifier
@@ -432,7 +456,15 @@ fun SignupScreen(
                                         if (fullName.isNotBlank() && email.isNotBlank() &&
                                             mobileNumber.isNotBlank() && dateOfBirth.isNotBlank() &&
                                             password.isNotBlank() && confirmPassword.isNotBlank()) {
-                                            onSignUpSuccess()
+                                            errorMessage = null
+                                            viewModel.signup(
+                                                fullName = fullName,
+                                                email = email,
+                                                mobileNumber = mobileNumber,
+                                                dateOfBirth = dateOfBirth,
+                                                password = password,
+                                                confirmPassword = confirmPassword
+                                            )
                                         }
                                     }
                                 ),
@@ -508,13 +540,28 @@ fun SignupScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    // Error message
+                    if (errorMessage != null) {
+                        Text(
+                            text = errorMessage ?: "",
+                            color = Color.Red,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(bottom = 8.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
                     Button(
                         onClick = {
-                            if (fullName.isNotBlank() && email.isNotBlank() &&
-                                mobileNumber.isNotBlank() && dateOfBirth.isNotBlank() &&
-                                password.isNotBlank() && confirmPassword.isNotBlank()) {
-                                onSignUpSuccess()
-                            }
+                            errorMessage = null
+                            viewModel.signup(
+                                fullName = fullName,
+                                email = email,
+                                mobileNumber = mobileNumber,
+                                dateOfBirth = dateOfBirth,
+                                password = password,
+                                confirmPassword = confirmPassword
+                            )
                         },
                         modifier = Modifier
                             .width(220.dp)
@@ -526,17 +573,24 @@ fun SignupScreen(
                             disabledContentColor = Color.White.copy(alpha = 0.6f)
                         ),
                         shape = RoundedCornerShape(24.dp),
-                        enabled = fullName.isNotBlank() && email.isNotBlank() &&
+                        enabled = !isLoading && fullName.isNotBlank() && email.isNotBlank() &&
                                   mobileNumber.isNotBlank() && dateOfBirth.isNotBlank() &&
                                   password.isNotBlank() && confirmPassword.isNotBlank()
                     ) {
-                        Text(
-                            text = "Sign Up",
-                            fontSize = 20.sp,
-                            color = LettersAndIcons,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 0.5.sp
-                        )
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                color = LettersAndIcons,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        } else {
+                            Text(
+                                text = "Sign Up",
+                                fontSize = 20.sp,
+                                color = LettersAndIcons,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 0.5.sp
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(12.dp))

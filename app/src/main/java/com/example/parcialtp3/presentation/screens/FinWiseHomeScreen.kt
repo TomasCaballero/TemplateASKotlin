@@ -35,11 +35,14 @@ import com.example.parcialtp3.presentation.components.BalanceCard
 import com.example.parcialtp3.presentation.components.BottomNavBar
 import com.example.parcialtp3.presentation.components.ExpenseProgressBar
 import com.example.parcialtp3.presentation.components.GoalsCard
+import com.example.parcialtp3.presentation.components.LoadingIndicator
+import com.example.parcialtp3.presentation.components.ErrorMessage
 import com.example.parcialtp3.presentation.components.NotificationButton
 import com.example.parcialtp3.presentation.components.TransactionItem
 import com.example.parcialtp3.presentation.components.TransactionTabs
 import com.example.parcialtp3.presentation.viewmodels.HomeViewModel
 import com.example.parcialtp3.ui.theme.*
+import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
  * Pantalla principal de FinWise (Home)
@@ -47,7 +50,7 @@ import com.example.parcialtp3.ui.theme.*
  */
 @Composable
 fun FinWiseHomeScreen(
-    viewModel: HomeViewModel = viewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     onNavigationItemSelected: (NavigationItem) -> Unit = {},
     onNotificationClick: () -> Unit = {}
 ) {
@@ -81,10 +84,25 @@ fun FinWiseHomeScreen(
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.primary)
         ) {
-            // Contenido desplazable
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            // Show loading indicator
+            if (uiState.isLoading) {
+                LoadingIndicator()
+            }
+
+            // Show error message
+            else if (uiState.error != null) {
+                ErrorMessage(
+                    message = uiState.error ?: "Unknown error",
+                    onRetry = { viewModel.retryLoadTransactions() }
+                )
+            }
+
+            // Show content
+            else {
+                // Contenido desplazable
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
                 // Header (sobre fondo verde)
                 item {
                     HomeHeader(
@@ -148,6 +166,7 @@ fun FinWiseHomeScreen(
                             .background(MaterialTheme.colorScheme.surface)
                     )
                 }
+            }
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,7 +49,7 @@ fun BalanceCard(
                 )
                 Text(
                     text = "Total Balance",
-                    fontSize = 15.sp,
+                    fontSize = 13.sp,
                     color = LettersAndIcons,
                     fontWeight = FontWeight.Medium
                 )
@@ -57,9 +58,10 @@ fun BalanceCard(
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "$${String.format("%.2f", totalBalance)}",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = if (totalBalance >= 0f) Color.White else BlueButton
+                fontSize = 24.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.White,
+                overflow = TextOverflow.Clip
             )
         }
 
@@ -83,17 +85,18 @@ fun BalanceCard(
                 )
                 Text(
                     text = "Total Expense",
-                    fontSize = 15.sp,
+                    fontSize = 13.sp,
                     color = LettersAndIcons,
                     fontWeight = FontWeight.Medium
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "-$${String.format("%.2f", -totalExpense)}",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = if (totalExpense >= 0f) Color.White else BlueButton
+                text = "-$${String.format("%.2f", totalExpense)}",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = BlueButton,
+                overflow = TextOverflow.Clip
             )
         }
     }

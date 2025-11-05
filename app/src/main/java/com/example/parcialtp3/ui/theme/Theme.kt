@@ -29,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = MainGreen,
     tertiary = BackgroundGreenWhiteAndLetters,
     background = LightGreen,
-    surface = LightGreen
+    surface = BackgroundGreenWhiteAndLetters
 )
 
 @Composable

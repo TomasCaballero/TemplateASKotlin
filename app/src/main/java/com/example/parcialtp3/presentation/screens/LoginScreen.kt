@@ -245,9 +245,8 @@ fun LoginScreen(
 
                     Button(
                         onClick = {
-                            if (email.isNotBlank() && password.isNotBlank()) {
-                                viewModel.login(email, password)
-                            }
+                            viewModel.login(email, password)
+
                         },
                         modifier = Modifier
                             .width(220.dp)
@@ -259,7 +258,7 @@ fun LoginScreen(
                             disabledContentColor = Color.White.copy(alpha = 0.6f)
                         ),
                         shape = RoundedCornerShape(24.dp),
-                        enabled = email.isNotBlank() && password.isNotBlank() && uiState !is LoginUiState.Loading
+                        enabled = uiState !is LoginUiState.Loading
                     ) {
                         if (uiState is LoginUiState.Loading) {
                             CircularProgressIndicator(

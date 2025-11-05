@@ -10,9 +10,11 @@ import com.example.parcialtp3.data.remote.api.ApiService
 import com.example.parcialtp3.data.repository.AuthRepositoryImpl
 import com.example.parcialtp3.data.repository.ExampleRepositoryImpl
 import com.example.parcialtp3.data.repository.ExpenseRepositoryImpl
+import com.example.parcialtp3.data.repository.TransactionRepositoryImpl
 import com.example.parcialtp3.domain.repository.AuthRepository
 import com.example.parcialtp3.domain.repository.ExampleRepository
 import com.example.parcialtp3.domain.repository.ExpenseRepository
+import com.example.parcialtp3.domain.repository.TransactionRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -194,5 +196,13 @@ object AppModule {
         expenseDao: ExpenseDao
     ): ExpenseRepository {
         return ExpenseRepositoryImpl(expenseDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTransactionRepository(
+        apiService: ApiService
+    ): TransactionRepository {
+        return TransactionRepositoryImpl(apiService)
     }
 }

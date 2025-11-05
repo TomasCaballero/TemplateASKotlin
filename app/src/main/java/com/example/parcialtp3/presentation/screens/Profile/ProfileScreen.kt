@@ -29,12 +29,17 @@ import com.example.parcialtp3.R
 import com.example.parcialtp3.domain.model.NavigationItem
 import com.example.parcialtp3.presentation.components.BottomNavBar
 import com.example.parcialtp3.presentation.components.NotificationButton
+import com.example.parcialtp3.presentation.components.LoadingIndicator
+import com.example.parcialtp3.presentation.components.ErrorMessage
+import com.example.parcialtp3.presentation.viewmodels.ProfileViewModel
+import com.example.parcialtp3.presentation.viewmodels.ProfileUiState
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
 import com.example.parcialtp3.ui.theme.*
 
 @Composable
 fun ProfileScreen(
-    userName: String = "John Smith",
-    userId: String = "25030024",
+    viewModel: ProfileViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {},
     onNavigationItemSelected: (NavigationItem) -> Unit = {},
     onNotificationClick: () -> Unit = {},
@@ -44,7 +49,20 @@ fun ProfileScreen(
     onHelpClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {}
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     var showLogoutDialog by remember { mutableStateOf(false) }
+
+    // Obtener datos del usuario de la API o usar mock
+    val userName = when (uiState) {
+        is ProfileUiState.Success -> (uiState as ProfileUiState.Success).user.username
+        else -> "Loading..."
+    }
+
+    val userId = when (uiState) {
+        is ProfileUiState.Success -> (uiState as ProfileUiState.Success).user.id.toString()
+        else -> "..."
+    }
+
     Scaffold(
         containerColor = LightGreen,
         bottomBar = {
@@ -183,6 +201,7 @@ fun ProfileScreen(
                 onDismiss = { showLogoutDialog = false },
                 onConfirm = {
                     showLogoutDialog = false
+                    viewModel.logout()
                     onLogoutClick()
                 }
             )
